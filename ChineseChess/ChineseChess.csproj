@@ -51,6 +51,7 @@
     <Compile Include="Chesses\ChessCannon.cs" />
     <Compile Include="Chesses\ChessChariot.cs" />
     <Compile Include="Chesses\ChessElephant.cs" />
+    <Compile Include="Chesses\ChessInfoArgument.cs" />
     <Compile Include="Chesses\ChessKnight.cs" />
     <Compile Include="Chesses\ChessKing.cs" />
     <Compile Include="Chesses\ChessMandarin.cs" />
