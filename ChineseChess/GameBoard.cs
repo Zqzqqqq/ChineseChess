@@ -13,6 +13,10 @@ namespace ChineseChess
 
         }
 
+        public void set()
+        {
+
+        }
         public void get()
         {
 
