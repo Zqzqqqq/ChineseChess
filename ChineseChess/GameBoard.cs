@@ -12,5 +12,10 @@ namespace ChineseChess
         {
 
         }
+
+        public void get()
+        {
+
+        }
     }
 }
