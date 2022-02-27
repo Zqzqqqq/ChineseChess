@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ChineseChess.Chesses;
 
 namespace ChineseChess
 {
@@ -16,8 +17,9 @@ namespace ChineseChess
     {
         public int row,col;
         public ChessFlag flag;
-       
         public string name;
+        public delegate void EatHandler(object o, ChessInfoArgument e);
+        public static event EatHandler Eat;
         public Chess(int row, int col, ChessFlag flag, string name)
         {
             this.row = row;
@@ -45,8 +47,32 @@ namespace ChineseChess
         }
 
         public abstract bool Move(int row, int col, List<Chess> chesses);
+        public bool Move(int row, int col, List<Chess> chesses, bool flag)
+        {
+            if (flag) // 如果对面吃棋了，就找到并删掉
+            {
+                ChessInfoArgument e = null;
+                foreach (Chess c in chesses)
+                {
+                    if (c.row == row && c.col == col)
+                    {
+                        e = new ChessInfoArgument(c);
+                        OnEating(e);
+                        break;
+                    }
+                    return false;
+                }
+            }
+            this.row = row;
+            this.col = col;
+            return true;
+        }
+       
+        protected virtual void OnEating(ChessInfoArgument e)
+        {
+            Eat?.Invoke(this, e);
+        } 
         
-        // changeeawdDwdasd
-        // dwadasd
+
     }
 }
