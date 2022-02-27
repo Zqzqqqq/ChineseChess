@@ -8,6 +8,9 @@ namespace ChineseChess
 {
     class GameBoard
     {
+        public GameBoard()
+        {
 
+        }
     }
 }
