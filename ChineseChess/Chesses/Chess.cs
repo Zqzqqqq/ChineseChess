@@ -16,7 +16,7 @@ namespace ChineseChess
     {
         public int row,col;
         public ChessFlag flag;
-        private ChessBox chessBox;
+       
         public string name;
         public Chess(int row, int col, ChessFlag flag, string name)
         {
