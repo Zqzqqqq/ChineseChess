@@ -30,7 +30,7 @@ namespace ChineseChess
         {
             int x = col * ChessBox.cell + ChessBox.cell / 2;
             int y = row * ChessBox.cell + ChessBox.cell / 2;
-            g.FillEllipse(Brushes.Brown, x - ChessBox.radius, y - ChessBox.radius, 2 * ChessBox.radius, 2 * ChessBox.radius);
+            g.FillEllipse(Brushes.Gray, x - ChessBox.radius, y - ChessBox.radius, 2 * ChessBox.radius, 2 * ChessBox.radius);
             if (flag == ChessFlag.Black)
                 g.DrawString(name, new Font("宋体", 14), Brushes.Black, (float)(x - ChessBox.radius * 0.5), (float)(y - ChessBox.radius * 0.5));
             else

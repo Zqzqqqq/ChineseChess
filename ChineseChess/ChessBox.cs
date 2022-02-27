@@ -17,17 +17,19 @@ namespace ChineseChess
     {
         public static int row = 9, col = 8;
         public static int gap, radius, cell;
+        int boxwidth, boxheight;
         public List<Chess> chesses;
         public PlayFlag flag;
         public ChessBox(PictureBox box, PlayFlag flag)
         {
             this.flag = flag;
-            SetUISize(box.Width, box.Height);
+            SetUISize(box);
             InitChesses();
         }
 
         private void InitChesses()
         {
+            chesses = new List<Chess>();
             if (flag == PlayFlag.Red)
             {
                 chesses.Add(new ChessCannon(2, 1, ChessFlag.Black));
@@ -100,9 +102,21 @@ namespace ChineseChess
             }
         }
 
-        public void SetUISize(int width, int height)
+        public void SetUISize(PictureBox box)
         {
-
+            if (box.Height * 9 > box.Width * 10)
+            {
+                boxwidth = box.Width;
+                boxheight = box.Width * 10 / 9;
+            }
+            else
+            {
+                boxwidth = box.Height * 9 / 10;
+                boxheight = box.Height;
+            }
+            cell = boxwidth / (col + 1);
+            gap = cell;
+            radius = cell * 2 / 5;
         }
 
         public void UpdateChesses(Graphics g)
@@ -111,8 +125,28 @@ namespace ChineseChess
             {
                 chess.Draw(g);
             }
+            Pen p = new Pen(Color.Black, 6);
+            g.DrawLine(p, 3, 0, 3, boxheight);
+            g.DrawLine(p, 0, 3, boxwidth - boxwidth % 8, 3);
+            g.DrawLine(p, boxwidth - boxwidth % 8, 0, boxwidth - boxwidth % 8, boxheight);
+            g.DrawLine(p, 0, boxheight - 3, boxwidth - boxwidth % 8, boxheight - 3);
+            p = new Pen(Color.Black, 2);
+            for (int i = 0; i < 10; i++)
+            {
+                g.DrawLine(p, gap / 2, gap * i + gap / 2, gap * 17 / 2, gap * i + gap / 2);
+            }
+            g.DrawLine(p, gap / 2, gap / 2, gap / 2, gap * 19 / 2);
+            g.DrawLine(p, gap * 17 / 2, gap / 2, gap * 17 / 2, gap * 19 / 2);
+            for (int i = 1; i < 8; i++)
+            {
+                g.DrawLine(p, gap * i + gap / 2, gap / 2, gap * i + gap / 2, gap * 9 / 2);
+                g.DrawLine(p, gap * i + gap / 2, gap * 5 + gap / 2, gap * i + gap / 2, gap * 19 / 2);
+            }
+            g.DrawLine(p, gap * 7 / 2, gap / 2, gap * 11 / 2, gap * 5 / 2);
+            g.DrawLine(p, gap * 11 / 2, gap / 2, gap * 7 / 2, gap * 5 / 2);
+            g.DrawLine(p, gap * 7 / 2, gap * 15 / 2, gap * 11 / 2, gap * 19 / 2);
+            g.DrawLine(p, gap * 11 / 2, gap * 15 / 2, gap * 7 / 2, gap * 19 / 2);
+            g.Save();
         }
-
-        
     }
 }

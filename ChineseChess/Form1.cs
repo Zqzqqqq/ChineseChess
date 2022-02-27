@@ -15,6 +15,7 @@ namespace ChineseChess
     public partial class Form1 : Form
     {
         private Socket socket;
+        ChessBox chessbox;
         /*public delegate void StepSendHandler(object sender, StepSendArguments e);
         public static event StepSendHandler StepSend;*/
         public Form1(Socket socket)
@@ -30,13 +31,7 @@ namespace ChineseChess
             InitializeComponent();
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            socket.Send(Encoding.UTF8.GetBytes(textBox2.Text.ToString()));
-            /*StepSendArguments se = new StepSendArguments(textBox2.Text.ToString());
-            StepSend(this, se);*/
-            listBox1.Items.Add(textBox2.Text.ToString());
-        }
+
 
         public void AddMessage(string message)
         {
@@ -57,7 +52,30 @@ namespace ChineseChess
                 AddMessage(s);
             }
         }
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+            Graphics g = pictureBox1.CreateGraphics();
+            g.Clear(Color.White);
+            chessbox.SetUISize(pictureBox1);
+            chessbox.UpdateChesses(g);
+        }
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            Invalidate();
+        }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            chessbox = new ChessBox(pictureBox1, PlayFlag.Black);
+        }
 
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            g.Clear(Color.White);
+            chessbox.SetUISize(pictureBox1);
+            chessbox.UpdateChesses(g);
+        }
     }
 }
