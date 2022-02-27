@@ -47,6 +47,6 @@ namespace ChineseChess
         public abstract bool Move(int row, int col, List<Chess> chesses);
         
         // changeeawdDwdasd
-        //dwadasd
+        // dwadasd
     }
 }
