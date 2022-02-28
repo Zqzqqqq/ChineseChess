@@ -14,7 +14,7 @@ namespace ChineseChess.Chesses
         }
         public override bool Move(int row, int col, List<Chess> chesses)
         {
-            bool b = this.row / 5 == 1;
+            bool b = row / 5 == 1;
             if (b)
             {
                 if (row != 5 || row != 7 || row != 9)
