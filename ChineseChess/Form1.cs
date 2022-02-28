@@ -58,7 +58,12 @@ namespace ChineseChess
         }
         protected override void OnPaint(PaintEventArgs e)
         {
+<<<<<<< HEAD
             base.OnPaint(e);  
+=======
+            base.OnPaint(e);
+            
+>>>>>>> 37ab955684a07ff5ff29622078eb5a2d272bc535
             Graphics g = pictureBox1.CreateGraphics();
             chessbox.SetUISize(pictureBox1);
             chessbox.UpdateChesses(g);

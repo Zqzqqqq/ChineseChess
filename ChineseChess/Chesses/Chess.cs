@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +33,23 @@ namespace ChineseChess
         {
             int x = col * ChessBox.cell + ChessBox.cell / 2;
             int y = row * ChessBox.cell + ChessBox.cell / 2;
-            g.FillEllipse(new SolidBrush(Color.FromArgb(232, 167, 67)), x - ChessBox.radius, y - ChessBox.radius, 2 * ChessBox.radius, 2 * ChessBox.radius);
+
+            Color SColor1 = Color.FromArgb(241, 207, 135);
+            Color EColor1 = Color.FromArgb(73, 47, 24);
+            Color SColor2 = Color.FromArgb(232, 193, 118);
+            Color EColor2 = Color.FromArgb(230, 166, 79);
+
+            Rectangle r1 = new Rectangle(x - ChessBox.radius * 11 / 10, y - ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10);
+            Rectangle r2 = new Rectangle(x - ChessBox.radius * 9 / 10, y - ChessBox.radius * 9 / 10, 2 * ChessBox.radius * 9 / 10, 2 * ChessBox.radius * 9 / 10);
+
+            Brush b1 = new LinearGradientBrush(r1, SColor1, EColor1, LinearGradientMode.ForwardDiagonal);
+            Brush b2 = new LinearGradientBrush(r2, SColor2, EColor2, LinearGradientMode.ForwardDiagonal);
+
+            g.FillEllipse(b1, r1.X, r1.Y, r1.Width, r1.Height);
+            g.FillEllipse(b2, r2.X, r2.Y, r2.Width, r2.Height);
+
+            g.DrawEllipse(Pens.Gray, x - ChessBox.radius * 8 / 10, y - ChessBox.radius * 8 / 10, 2 * ChessBox.radius * 8 / 10, 2 * ChessBox.radius * 8 / 10);
+
             if (flag == ChessFlag.Black)
                 g.DrawString(name, new Font("楷体", ChessBox.radius, FontStyle.Bold), Brushes.Black, (float)(x - ChessBox.radius * 0.87), (float)(y - ChessBox.radius * 0.7));
             else
