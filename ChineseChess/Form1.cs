@@ -28,10 +28,17 @@ namespace ChineseChess
 
         public Form1()
         {
+            
             InitializeComponent();
             float h = (float)(this.Height * 0.8);
             float w = (float)(this.Width * 0.75);
             pictureBox1.Size = new Size((int)Math.Min(h, w), (int)Math.Min(h, w));
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
+            /*Bitmap image = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height);
+            g = Graphics.FromImage(image);
+            pictureBox1.BackgroundImage = image;*/
         }
 
 
@@ -55,37 +62,50 @@ namespace ChineseChess
                 AddMessage(s);
             }
         }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            
-            Graphics g = pictureBox1.CreateGraphics();
-            chessbox.SetUISize(pictureBox1);
-            chessbox.UpdateChesses(g);
-        }
+        
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             float h = (float)(this.Height * 0.8);
             float w = (float)(this.Width * 0.75);
             pictureBox1.Size = new Size((int)Math.Min(h, w), (int)Math.Min(h, w));
-           
-            Invalidate();
+
+            if (chessbox != null)
+            {
+                chessbox.SetUISize(pictureBox1);
+                chessbox.UpdateChesses(pictureBox1.CreateGraphics());
+            }
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             chessbox = new ChessBox(pictureBox1, PlayFlag.Black);
-            
-            
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            
-            
             chessbox.SetUISize(pictureBox1);
             chessbox.UpdateChesses(g);
         }
+
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            chessbox.SetUISize(pictureBox1);
+            if (chessbox.picked) // 如果当前已经选中了某个棋子
+            {
+                chessbox.MoveChess(e.Location); // 移动棋子，若成功
+                
+            }
+            else
+            {
+                chessbox.PickChess(e.Location);
+            }
+
+            chessbox.UpdateChesses(pictureBox1.CreateGraphics());
+        }
+
+       
     }
 }

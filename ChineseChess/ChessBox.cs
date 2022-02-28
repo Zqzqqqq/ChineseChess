@@ -20,11 +20,13 @@ namespace ChineseChess
         int boxwidth, boxheight;
         public List<Chess> chesses;
         public PlayFlag flag;
+        public bool picked = false;
         public ChessBox(PictureBox box, PlayFlag flag)
         {
             this.flag = flag;
             SetUISize(box);
             InitChesses();
+            Chess.Eat += new Chess.EatHandler(Chess_Eaten);
         }
 
         private void InitChesses()
@@ -147,7 +149,51 @@ namespace ChineseChess
             {
                 chess.Draw(g);
             }
-            g.Save();
+            
+        }
+
+        public void PickChess(Point p)
+        {
+            int r = (int)((p.Y ) / cell);
+            int c = (int)((p.X ) / cell);
+            foreach(Chess chess in chesses)
+            {
+                chess.Picked = false;
+                picked = false;
+                if (r == chess.row && c == chess.col)
+                {
+                    chess.Picked = true;
+                    picked = true;
+                    return;
+                }
+                
+            }
+        }
+
+        public bool MoveChess(Point p)
+        {
+            int r = (int)((p.Y) / cell);
+            int c = (int)((p.X) / cell);
+            bool f = false;
+            foreach (Chess chess in chesses)
+            {
+                if (chess.Picked) // 找到被选中的棋子
+                {
+                    f = chess.Move(r, c, chesses); // 如果该棋子能动
+                        
+                    chess.Picked = false;
+                    this.picked = false;
+                    break;
+                }
+                
+
+            }
+            return f;
+        }
+
+        public void Chess_Eaten(object o, ChessInfoArgument e)
+        {
+            chesses.Remove(e.Chess);
         }
     }
 }

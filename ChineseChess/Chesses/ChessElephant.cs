@@ -17,9 +17,9 @@ namespace ChineseChess.Chesses
             bool b = row / 5 == 1;
             if (b)
             {
-                if (row != 5 || row != 7 || row != 9)
+                if (row != 5 && row != 7 && row != 9)
                     return false;
-                if (col != 0 || col != 2 || col != 4 || col != 6 || col != 8)
+                if (col != 0 && col != 2 && col != 4 && col != 6 && col != 8)
                     return false;
                 bool flag = false;
                 ChessInfoArgument e = null;

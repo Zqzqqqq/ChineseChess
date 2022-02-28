@@ -21,6 +21,7 @@ namespace ChineseChess
         public string name;
         public delegate void EatHandler(object o, ChessInfoArgument e);
         public static event EatHandler Eat;
+        private bool picked = false;
         public Chess(int row, int col, ChessFlag flag, string name)
         {
             this.row = row;
@@ -31,6 +32,9 @@ namespace ChineseChess
 
         public void Draw(Graphics g)
         {
+            g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            
+
             int x = col * ChessBox.cell + ChessBox.cell / 2;
             int y = row * ChessBox.cell + ChessBox.cell / 2;
 
@@ -54,6 +58,12 @@ namespace ChineseChess
                 g.DrawString(name, new Font("楷体", ChessBox.radius, FontStyle.Bold), Brushes.Black, (float)(x - ChessBox.radius * 0.87), (float)(y - ChessBox.radius * 0.7));
             else
                 g.DrawString(name, new Font("楷体", ChessBox.radius, FontStyle.Bold), Brushes.Red, (float)(x - ChessBox.radius * 0.87), (float)(y - ChessBox.radius * 0.7));
+
+            if (picked)
+            {
+                g.DrawRectangle(Pens.Red, r1);
+            }
+            
         }
 
         public bool Equal(Chess chess)
@@ -88,8 +98,12 @@ namespace ChineseChess
         protected virtual void OnEating(ChessInfoArgument e)
         {
             Eat?.Invoke(this, e);
-        } 
-        
+        }
 
+        public bool Picked
+        {
+            get { return this.picked; }
+            set { this.picked = value; }
+        }
     }
 }
