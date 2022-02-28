@@ -59,8 +59,6 @@ namespace ChineseChess
         {
             base.OnPaint(e);
             
-
-            
             Graphics g = pictureBox1.CreateGraphics();
             chessbox.SetUISize(pictureBox1);
             chessbox.UpdateChesses(g);
