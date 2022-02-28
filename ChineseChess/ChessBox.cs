@@ -121,10 +121,7 @@ namespace ChineseChess
 
         public void UpdateChesses(Graphics g)
         {
-            foreach(Chess chess in chesses)
-            {
-                chess.Draw(g);
-            }
+            g.Clear(Color.FromArgb(227, 192, 138));
             Pen p = new Pen(Color.Black, 6);
             g.DrawLine(p, 3, 0, 3, boxheight);
             g.DrawLine(p, 0, 3, boxwidth - boxwidth % 8, 3);
@@ -146,6 +143,10 @@ namespace ChineseChess
             g.DrawLine(p, gap * 11 / 2, gap / 2, gap * 7 / 2, gap * 5 / 2);
             g.DrawLine(p, gap * 7 / 2, gap * 15 / 2, gap * 11 / 2, gap * 19 / 2);
             g.DrawLine(p, gap * 11 / 2, gap * 15 / 2, gap * 7 / 2, gap * 19 / 2);
+            foreach (Chess chess in chesses)
+            {
+                chess.Draw(g);
+            }
             g.Save();
         }
     }
