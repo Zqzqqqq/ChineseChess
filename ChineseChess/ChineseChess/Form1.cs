@@ -29,10 +29,6 @@ namespace ChineseChess
         public Form1()
         {
             InitializeComponent();
-            float h = (float)(this.Height * 0.8);
-            float w = (float)(this.Width * 0.75);
-            //pictureBox1.Size = new Size(412, 458);
-            pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) / 9);
         }
 
 
@@ -58,17 +54,14 @@ namespace ChineseChess
         }
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);  
+            base.OnPaint(e);
             Graphics g = pictureBox1.CreateGraphics();
+            g.Clear(Color.White);
             chessbox.SetUISize(pictureBox1);
             chessbox.UpdateChesses(g);
         }
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            float h = (float)(this.Height * 0.8);
-            float w = (float)(this.Width * 0.75);
-            //pictureBox1.Size = new Size(412, 458);
-            pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) /9);
             Invalidate();
         }
 
@@ -80,6 +73,7 @@ namespace ChineseChess
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
+            g.Clear(Color.White);
             chessbox.SetUISize(pictureBox1);
             chessbox.UpdateChesses(g);
         }

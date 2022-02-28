@@ -30,6 +30,7 @@ namespace ChineseChess
             g.DrawLine(p, width - width % 8, 0, width - width % 8, height);
             g.DrawLine(p, 0, height - 3, width - width % 8, height - 3);
             float gap = width / 9;
+            //gap = (int)gap;
             p = new Pen(Color.Black, 2);
             for (int i = 0; i < 10; i++)
             {

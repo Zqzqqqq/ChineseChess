@@ -57,7 +57,7 @@ namespace ChineseChess
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(998, 667);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1001, 667);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // listBox1
@@ -65,26 +65,26 @@ namespace ChineseChess
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 15;
-            this.listBox1.Location = new System.Drawing.Point(751, 3);
+            this.listBox1.Location = new System.Drawing.Point(753, 3);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(244, 527);
+            this.listBox1.Size = new System.Drawing.Size(245, 527);
             this.listBox1.TabIndex = 0;
             // 
             // textBox1
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(751, 536);
+            this.textBox1.Location = new System.Drawing.Point(753, 536);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(244, 128);
+            this.textBox1.Size = new System.Drawing.Size(245, 128);
             this.textBox1.TabIndex = 1;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox1.Location = new System.Drawing.Point(6, 3);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(735, 527);
+            this.pictureBox1.Size = new System.Drawing.Size(744, 527);
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
@@ -103,14 +103,14 @@ namespace ChineseChess
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 128F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(742, 128);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(744, 128);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
             // button3
             // 
             this.button3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button3.Location = new System.Drawing.Point(539, 19);
+            this.button3.Location = new System.Drawing.Point(541, 19);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(157, 90);
             this.button3.TabIndex = 2;
@@ -120,7 +120,7 @@ namespace ChineseChess
             // button2
             // 
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button2.Location = new System.Drawing.Point(292, 19);
+            this.button2.Location = new System.Drawing.Point(293, 19);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(157, 90);
             this.button2.TabIndex = 1;
