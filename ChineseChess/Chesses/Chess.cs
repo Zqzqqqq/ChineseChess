@@ -34,9 +34,9 @@ namespace ChineseChess
             int y = row * ChessBox.cell + ChessBox.cell / 2;
             g.FillEllipse(new SolidBrush(Color.FromArgb(232, 167, 67)), x - ChessBox.radius, y - ChessBox.radius, 2 * ChessBox.radius, 2 * ChessBox.radius);
             if (flag == ChessFlag.Black)
-                g.DrawString(name, new Font("宋体", ChessBox.radius), Brushes.Black, (float)(x - ChessBox.radius * 0.85), (float)(y - ChessBox.radius * 0.7));
+                g.DrawString(name, new Font("楷体", ChessBox.radius, FontStyle.Bold), Brushes.Black, (float)(x - ChessBox.radius * 0.87), (float)(y - ChessBox.radius * 0.7));
             else
-                g.DrawString(name, new Font("宋体", ChessBox.radius), Brushes.Red, (float)(x - ChessBox.radius * 0.85), (float)(y - ChessBox.radius * 0.7));
+                g.DrawString(name, new Font("楷体", ChessBox.radius, FontStyle.Bold), Brushes.Red, (float)(x - ChessBox.radius * 0.87), (float)(y - ChessBox.radius * 0.7));
         }
 
         public bool Equal(Chess chess)
