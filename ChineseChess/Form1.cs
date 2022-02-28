@@ -30,9 +30,9 @@ namespace ChineseChess
         {
             
             InitializeComponent();
-            float h = (float)(this.Height * 0.8);
-            float w = (float)(this.Width * 0.75);
-            pictureBox1.Size = new Size((int)Math.Min(h, w), (int)Math.Min(h, w));
+            float h = (float)(tableLayoutPanel1.Height * 0.80);
+            float w = (float)(tableLayoutPanel1.Width * 0.75);
+            pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) / 9);
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             this.SetStyle(ControlStyles.UserPaint, true);
@@ -65,9 +65,9 @@ namespace ChineseChess
         
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            float h = (float)(this.Height * 0.8);
-            float w = (float)(this.Width * 0.75);
-            pictureBox1.Size = new Size((int)Math.Min(h, w), (int)Math.Min(h, w));
+            float h = (float)(tableLayoutPanel1.Height * 0.80);
+            float w = (float)(tableLayoutPanel1.Width * 0.75);
+            pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) / 9);
 
             if (chessbox != null)
             {

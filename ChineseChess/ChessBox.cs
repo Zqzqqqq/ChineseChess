@@ -106,7 +106,9 @@ namespace ChineseChess
 
         public void SetUISize(PictureBox box)
         {
-            if (box.Height * 9 > box.Width * 10)
+            boxwidth = box.Width;
+            boxheight = box.Height;
+            /*if (box.Height * 9 > box.Width * 10)
             {
                 boxwidth = box.Width;
                 boxheight = box.Width * 10 / 9;
@@ -115,7 +117,7 @@ namespace ChineseChess
             {
                 boxwidth = box.Height * 9 / 10;
                 boxheight = box.Height;
-            }
+            }*/
             cell = boxwidth / (col + 1);
             gap = cell;
             radius = cell * 2 / 5;
