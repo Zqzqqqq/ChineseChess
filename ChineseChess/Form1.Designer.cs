@@ -65,6 +65,8 @@ namespace ChineseChess
             this.listBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalExtent = 500;
+            this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 15;
             this.listBox1.Location = new System.Drawing.Point(753, 3);
             this.listBox1.Name = "listBox1";

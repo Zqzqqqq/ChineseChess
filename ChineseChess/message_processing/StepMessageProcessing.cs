@@ -10,7 +10,8 @@ namespace ChineseChess.message_processing
     {
         public void Process(Form1 form, string message)
         {
-            throw new NotImplementedException();
+            string[] m = message.Split(' ');
+            form.OpponentMove(int.Parse(m[0]), int.Parse(m[1]), int.Parse(m[2]), int.Parse(m[3]));
         }
     }
 }

@@ -12,15 +12,15 @@ namespace ChineseChess.Chesses
         {
             
         }
-        public override bool Move(int row, int col, List<Chess> chesses)
+        public override Step Move(int row, int col, List<Chess> chesses)
         {
             bool b = row / 5 == 1;
             if (b)
             {
                 if (row != 5 && row != 7 && row != 9)
-                    return false;
+                    return null;
                 if (col != 0 && col != 2 && col != 4 && col != 6 && col != 8)
-                    return false;
+                    return null;
                 bool flag = false;
                 ChessInfoArgument e = null;
                 
@@ -29,11 +29,11 @@ namespace ChineseChess.Chesses
                     foreach(Chess c in chesses)
                     {
                         if (c.row == this.row - 1 && c.col == this.col - 1) // 被卡象脚就不能移动
-                            return false;
+                            return null;
                         if (c.row == this.row - 2 && c.col == this.col - 2) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
@@ -41,16 +41,18 @@ namespace ChineseChess.Chesses
                     }
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
                 if(row == this.row + 2 && col == this.col - 2) // 左下
@@ -58,11 +60,11 @@ namespace ChineseChess.Chesses
                     foreach (Chess c in chesses)
                     {
                         if (c.row == this.row + 1 && c.col == this.col - 1) // 被卡象脚就不能移动
-                            return false;
+                            return null;
                         if (c.row == this.row + 2 && c.col == this.col - 2) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
@@ -70,16 +72,18 @@ namespace ChineseChess.Chesses
                     }
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
                 if (row == this.row - 2 && col == this.col + 2) // 右上
@@ -87,11 +91,11 @@ namespace ChineseChess.Chesses
                     foreach (Chess c in chesses)
                     {
                         if (c.row == this.row - 1 && c.col == this.col + 1) // 被卡象脚就不能移动
-                            return false;
+                            return null;
                         if (c.row == this.row - 2 && c.col == this.col + 2) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
@@ -99,16 +103,18 @@ namespace ChineseChess.Chesses
                     }
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
                 if (row == this.row + 2 && col == this.col + 2) // 右下
@@ -116,11 +122,11 @@ namespace ChineseChess.Chesses
                     foreach (Chess c in chesses)
                     {
                         if (c.row == this.row + 1 && c.col == this.col + 1) // 被卡象脚就不能移动
-                            return false;
+                            return null;
                         if (c.row == this.row + 2 && c.col == this.col + 2) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
@@ -128,23 +134,25 @@ namespace ChineseChess.Chesses
                     }
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
-                return false;
+                return null;
             }
             else
             {
-                return false;
+                return null;
             }
         }
 

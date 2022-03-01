@@ -12,7 +12,7 @@ namespace ChineseChess.Chesses
         {
 
         }
-        public override bool Move(int row, int col, List<Chess> chesses)
+        public override Step Move(int row, int col, List<Chess> chesses)
         {
             if (row == this.row)
             {
@@ -24,7 +24,7 @@ namespace ChineseChess.Chesses
                     if (c.col == col && c.row == row)
                     {
                         if (c.flag == this.flag) // 目标点是己方则不能动
-                            return false;
+                            return null;
                         flag = true;
                         e = new ChessInfoArgument(c);
                     }
@@ -37,20 +37,22 @@ namespace ChineseChess.Chesses
                     }
 
                     if (num >= 1)
-                        return false;
+                        return null;
                 }
                 if (flag && (num == 0)) // 目标点为敌方且中间无棋子，则可以吃
                 {
+                    int x = this.row, y = this.col;
                     this.row = row;
                     this.col = col;
                     base.OnEating(e);
-                    return true;
+                    return new Step(x, y, row, col);
                 }
                 if (!flag && (num == 0)) // 目标点没东西那么需要路径上没有棋子
                 {
+                    int x = this.row, y = this.col;
                     this.row = row;
                     this.col = col;
-                    return true;
+                    return new Step(x, y, row, col);
                 }
             }
 
@@ -64,7 +66,7 @@ namespace ChineseChess.Chesses
                     if (c.col == col && c.row == row)
                     {
                         if (c.flag == this.flag)
-                            return false;
+                            return null;
                         flag = true;
                         e = new ChessInfoArgument(c);
                     }
@@ -75,24 +77,26 @@ namespace ChineseChess.Chesses
                         
                     }
                     if (num >= 1)
-                        return false;
+                        return null;
                 }
                 if (flag && (num == 0))
                 {
+                    int x = this.row, y = this.col;
                     this.row = row;
                     this.col = col;
                     base.OnEating(e);
-                    return true;
+                    return new Step(x, y, row, col);
                 }
                 if (!flag && (num == 0))
                 {
+                    int x = this.row, y = this.col;
                     this.row = row;
                     this.col = col;
-                    return true;
+                    return new Step(x, y, row, col);
                 }
             }
 
-            return false; // 非直线移动那么直接返回false
+            return null; // 非直线移动那么直接返回false
         }
 
         

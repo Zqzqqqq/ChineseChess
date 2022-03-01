@@ -11,12 +11,12 @@ namespace ChineseChess
 {
     enum ChessFlag
     {
-        Black,Red
+        Black, Red
     }
 
     abstract class Chess
     {
-        public int row,col;
+        public int row, col;
         public ChessFlag flag;
         public string name;
         public delegate void EatHandler(object o, ChessInfoArgument e);
@@ -33,7 +33,7 @@ namespace ChineseChess
         public void Draw(Graphics g)
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            
+
 
             int x = col * ChessBox.cell + ChessBox.cell / 2;
             int y = row * ChessBox.cell + ChessBox.cell / 2;
@@ -63,7 +63,7 @@ namespace ChineseChess
             {
                 g.DrawRectangle(Pens.Red, r1);
             }
-            
+
         }
 
         public bool Equal(Chess chess)
@@ -73,28 +73,25 @@ namespace ChineseChess
             return false;
         }
 
-        public abstract bool Move(int row, int col, List<Chess> chesses);
+        public abstract Step Move(int row, int col, List<Chess> chesses);
         public bool Move(int row, int col, List<Chess> chesses, bool flag)
         {
-            if (flag) // 如果对面吃棋了，就找到并删掉
+            foreach (Chess c in chesses)
             {
-                ChessInfoArgument e = null;
-                foreach (Chess c in chesses)
+                if (c.row == row && c.col == col)
                 {
-                    if (c.row == row && c.col == col)
-                    {
-                        e = new ChessInfoArgument(c);
-                        OnEating(e);
-                        break;
-                    }
-                    return false;
+                    ChessInfoArgument e = new ChessInfoArgument(c);
+                    OnEating(e);
+                    break;
                 }
+
             }
+
             this.row = row;
             this.col = col;
             return true;
         }
-       
+
         protected virtual void OnEating(ChessInfoArgument e)
         {
             Eat?.Invoke(this, e);
@@ -104,6 +101,11 @@ namespace ChineseChess
         {
             get { return this.picked; }
             set { this.picked = value; }
+        }
+
+        public Chess Clone()
+        {
+            return this.MemberwiseClone() as Chess;
         }
     }
 }

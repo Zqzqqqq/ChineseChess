@@ -103,7 +103,8 @@ namespace Server
                         }
                         else
                         {
-                            clientSocket.Send(Encoding.UTF8.GetBytes("success "));
+                            clientSocket.Send(Encoding.UTF8.GetBytes("success-" + c + " "));
+                            Console.WriteLine("发送至客户端{0},消息{1}", clientSocket.RemoteEndPoint.ToString(), "success-" + c + " ");
                             opponent.Add(clients[s[1]], clients[s[2]]);
                             Thread thread = new Thread(ReceiveMessage);
                             thread.Start(clientSocket);

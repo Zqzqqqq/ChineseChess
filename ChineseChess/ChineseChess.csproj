@@ -68,6 +68,7 @@
     <Compile Include="message_processing\StepMessageProcessing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Step.cs" />
     <Compile Include="StepSendArguments.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

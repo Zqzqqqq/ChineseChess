@@ -47,14 +47,18 @@ namespace Login
                 {
                     int len = socket.Receive(buffer);
                     string[] s = Encoding.UTF8.GetString(buffer, 0, len).Split(' ');
+                    if (s[s.Length - 2].Contains("success"))
+                    {
+                        if (s[s.Length - 2].Contains("-0"))
+                            return 0+"";
+                        return 1+"";
+                    }
                     switch (s[s.Length-2])
                     {
                         case "failure":
                             return "failure";
                         case "wait":
                             continue;
-                        case "success":
-                            return "success";
                         case "name-repeated":
                             return "name-repeated";
                         default:

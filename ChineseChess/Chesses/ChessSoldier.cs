@@ -12,13 +12,13 @@ namespace ChineseChess.Chesses
         {
         }
 
-        public override bool Move(int row, int col, List<Chess> chesses)
+        public override Step Move(int row, int col, List<Chess> chesses)
         {
             bool b = this.row / 5 == 1;
             if (b) // 没有过河的时候只能往前走
             {
                 if (col != this.col || row != this.row - 1)
-                    return false;
+                    return null;
                 else
                 {
                     bool flag = false;
@@ -29,7 +29,7 @@ namespace ChineseChess.Chesses
                         if (c.row == this.row - 1 && c.col == this.col) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
@@ -37,16 +37,18 @@ namespace ChineseChess.Chesses
 
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
             }
@@ -61,23 +63,25 @@ namespace ChineseChess.Chesses
                         if (c.row == this.row && c.col == this.col - 1) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
                     }
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
                 if (row == this.row && col == this.col + 1) // 右
@@ -87,23 +91,25 @@ namespace ChineseChess.Chesses
                         if (c.row == this.row && c.col == this.col + 1) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
                     }
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
                 if (row == this.row - 1 && col == this.col) // 上
@@ -113,26 +119,28 @@ namespace ChineseChess.Chesses
                         if (c.row == this.row - 1 && c.col == this.col) // 目标点有棋子
                         {
                             if (c.flag == this.flag)
-                                return false;
+                                return null;
                             flag = true;
                             e = new ChessInfoArgument(c);
                         }
                     }
                     if (flag)
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
                         base.OnEating(e);
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                     else
                     {
+                        int x = this.row, y = this.col;
                         this.row = row;
                         this.col = col;
-                        return true;
+                        return new Step(x, y, row, col);
                     }
                 }
-                return false;
+                return null;
             }
         }
     }

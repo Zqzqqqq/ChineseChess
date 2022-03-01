@@ -24,7 +24,7 @@ namespace Login
         {
             InitializeComponent();
             //ChineseChess.Form1.StepSend += new ChineseChess.Form1.StepSendHandler(Form1_Sended);
-            Link.Succeeded += Link_Succeeded;
+            Link.Succeeded += new Link.LinkSuccessHandler(Link_Succeeded);
             Link.Failed += Link_Failed;
             Link.Repeated += Link_Repeated;
             Form_Waiting.Canceled += Form_Waiting_Canceled;
@@ -44,7 +44,7 @@ namespace Login
             }
         }
 
-        private void Link_Succeeded()
+        private void Link_Succeeded(object o, LinkResultArguments e)
         {
             this.Invoke(new Action(() =>
             {
@@ -52,7 +52,7 @@ namespace Login
                 this.Hide();
             }));
             
-            form1 = new ChineseChess.Form1(client.socket, textBox_NickName1.Text.ToString(), textBox_NickName2.Text.ToString());
+            form1 = new ChineseChess.Form1(client.socket, textBox_NickName1.Text.ToString(), textBox_NickName2.Text.ToString(), e.PlayFlag);
             form1.ShowDialog();
             /*Thread t = new Thread(BeginReceiving);
             t.Start(client);*/

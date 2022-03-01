@@ -19,6 +19,7 @@ namespace ChineseChess
         public static int gap, radius, cell;
         int boxwidth, boxheight;
         public List<Chess> chesses;
+        public List<Chess>[] lastChesses = new List<Chess>[2];
         public PlayFlag flag;
         public bool picked = false;
         public ChessBox(PictureBox box, PlayFlag flag)
@@ -26,6 +27,8 @@ namespace ChineseChess
             this.flag = flag;
             SetUISize(box);
             InitChesses();
+            lastChesses[0] = null;
+            lastChesses[1] = null;
             Chess.Eat += new Chess.EatHandler(Chess_Eaten);
         }
 
@@ -175,23 +178,41 @@ namespace ChineseChess
             }
         }
 
-        public bool MoveChess(Point p)
+        public bool MoveChess(int sRow, int sCol, int eRow, int eCol)
+        {
+            foreach(Chess chess in chesses)
+            {
+                if(chess.row == sRow && chess.col == sCol)
+                {
+                    lastChesses[1] = new List<Chess>();
+                    chesses.ForEach(i => lastChesses[1].Add(i.Clone()));
+                    chess.Move(eRow, eCol, chesses, false);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Step MoveChess(Point p)
         {
             int r = (int)((p.Y) / cell);
             int c = (int)((p.X) / cell);
-            bool f = false;
+            Step f = null;
             foreach (Chess chess in chesses)
             {
                 if (chess.Picked) // 找到被选中的棋子
                 {
-                    f = chess.Move(r, c, chesses); // 如果该棋子能动
+                    lastChesses[0] = new List<Chess>();
+                    chesses.ForEach(i => lastChesses[0].Add(i.Clone()));
+                    if ((f = chess.Move(r, c, chesses))!=null) // 如果该棋子能动
+                    {
                         
+                    }
                     chess.Picked = false;
                     this.picked = false;
+
                     break;
                 }
-                
-
             }
             return f;
         }
@@ -199,6 +220,16 @@ namespace ChineseChess
         public void Chess_Eaten(object o, ChessInfoArgument e)
         {
             chesses.Remove(e.Chess);
+        }
+
+        public void Regret(int i)
+        {
+            if (lastChesses[i] != null)
+            {
+                chesses = new List<Chess>(); 
+                lastChesses[i].ForEach(j => chesses.Add(j));
+                lastChesses[i] = null;
+            }
         }
     }
 }

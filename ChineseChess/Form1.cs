@@ -16,17 +16,21 @@ namespace ChineseChess
     {
         private Socket socket;
         ChessBox chessbox;
-        public bool canPick = false;
+        public bool canPick = true;
         MessageProcessingFactory messageProcessingFactory = new MessageProcessingFactory();
         string me, opponent;
         /*public delegate void StepSendHandler(object sender, StepSendArguments e);
         public static event StepSendHandler StepSend;*/
-        public Form1(Socket socket, string me, string opponent)
+        public Form1(Socket socket, string me, string opponent, int flag)
         {
             InitializeComponent();
             this.socket = socket;
             this.me = me;
             this.opponent = opponent;
+            if(flag == 1)
+                chessbox = new ChessBox(pictureBox1, PlayFlag.Black);
+            else
+                chessbox = new ChessBox(pictureBox1, PlayFlag.Red);
             Thread t = new Thread(BeginReceiving);
             t.Start(this.socket);
             SetPictureBoxSize();
@@ -37,15 +41,8 @@ namespace ChineseChess
 
         public Form1()
         {
-            
             InitializeComponent();
-            SetPictureBoxSize();
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
-            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            this.SetStyle(ControlStyles.UserPaint, true);
-            /*Bitmap image = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height);
-            g = Graphics.FromImage(image);
-            pictureBox1.BackgroundImage = image;*/
+            chessbox = new ChessBox(pictureBox1, PlayFlag.Red);
         }
 
         private void SetPictureBoxSize()
@@ -61,6 +58,13 @@ namespace ChineseChess
             {
                 listBox1.Items.Add(message);
             }));
+        }
+
+        public void OpponentMove(int sRow, int sCol, int eRow, int eCol)
+        {
+            chessbox.MoveChess(sRow, sCol, eRow, eCol);
+            canPick = true;
+            chessbox.UpdateChesses(pictureBox1.CreateGraphics());
         }
 
         private void BeginReceiving(object client)
@@ -97,7 +101,7 @@ namespace ChineseChess
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            chessbox = new ChessBox(pictureBox1, PlayFlag.Black);
+            
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -115,8 +119,13 @@ namespace ChineseChess
             {
                 if (chessbox.picked) // 如果当前已经选中了某个棋子
                 {
-                    chessbox.MoveChess(e.Location); // 移动棋子，若成功
-
+                    Step step = null;
+                    if ((step=chessbox.MoveChess(e.Location))!=null) // 移动棋子，若成功
+                    {
+                        canPick = false;
+                        string s = "step^"+step.ToString();
+                        socket.Send(Encoding.UTF8.GetBytes(s));
+                    }
                 }
                 else
                 {
@@ -124,15 +133,13 @@ namespace ChineseChess
                 }
 
             }
-            
-            
-
             chessbox.UpdateChesses(pictureBox1.CreateGraphics());
         }
 
         private void button_regret_Click(object sender, EventArgs e)
         {
-
+            chessbox.Regret(0);
+            chessbox.UpdateChesses(pictureBox1.CreateGraphics());
         }
 
         private void button_surrender_Click(object sender, EventArgs e)
@@ -142,6 +149,7 @@ namespace ChineseChess
 
         private void button_draw_Click(object sender, EventArgs e)
         {
+
 
         }
 
