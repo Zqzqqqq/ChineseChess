@@ -54,7 +54,7 @@ namespace ChineseChess.Chesses
                 {
                     if (c.row == this.row && c.col == this.col - 1) // 被卡马脚就不能移动
                         return null;
-                    if (c.row == this.row && c.col == this.col - 1) // 目标点有棋子
+                    if (c.row == this.row -1 && c.col == this.col - 2) // 目标点有棋子
                     {
                         if (c.flag == this.flag)
                             return null;

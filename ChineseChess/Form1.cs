@@ -123,6 +123,10 @@ namespace ChineseChess
                     if ((step=chessbox.MoveChess(e.Location))!=null) // 移动棋子，若成功
                     {
                         canPick = false;
+                        step.sRow = 9 - step.sRow;
+                        step.eRow = 9 - step.eRow;
+                        step.sCol = 8 - step.sCol;
+                        step.eCol = 8 - step.eCol;
                         string s = "step^"+step.ToString();
                         socket.Send(Encoding.UTF8.GetBytes(s));
                     }
