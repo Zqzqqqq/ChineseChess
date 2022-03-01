@@ -159,11 +159,8 @@ namespace ChineseChess
             }
             g1.DrawImage(bmp, 0, 0);
             bmp.Dispose();
-            bmp = null;
             g.Dispose();
-            g = null;
             //g1.Dispose();
-            //g1 = null;
         }
 
         public void PickChess(Point p)

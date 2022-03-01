@@ -123,10 +123,6 @@ namespace Server
             }
         }
 
-        /// <summary>
-        /// 接收客户端消息
-        /// </summary>
-        /// <param name="socket">来自客户端的socket</param>
         private void ReceiveMessage(Object socket)
         {
             Socket clientSocket = (Socket)socket;
@@ -141,6 +137,30 @@ namespace Server
                     Console.WriteLine("接收客户端{0},消息{1}", clientSocket.RemoteEndPoint.ToString(), step);
                     opponent[clientSocket].Send(Encoding.UTF8.GetBytes(step));
                     Console.WriteLine("发送至客户端{0},消息{1}", opponent[clientSocket].RemoteEndPoint.ToString(), step);
+                    string[] over = step.Split('^');
+                    if (over[0].Equals("gameover"))
+                    {
+                        foreach(string s in clients.Keys)
+                        {
+                            if (clients[s] == clientSocket)
+                            {
+                                clients.Remove(s);
+                                break;
+                            }
+                            
+                        }
+                        foreach (string s in clients.Keys)
+                        {
+                            if (clients[s] == opponent[clientSocket])
+                            {
+                                clients.Remove(s);
+                                break;
+                            }
+                        }
+                        
+                        opponent.Remove(opponent[clientSocket]);
+                        opponent.Remove(clientSocket);
+                    }
                 }
                 catch (Exception ex)
                 {

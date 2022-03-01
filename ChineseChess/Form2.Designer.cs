@@ -1,7 +1,7 @@
 ﻿
-namespace Login
+namespace ChineseChess
 {
-    partial class Form_Waiting
+    partial class Form_Dialog
     {
         /// <summary>
         /// Required designer variable.
@@ -40,9 +40,8 @@ namespace Login
             this.label1.Font = new System.Drawing.Font("楷体", 15F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label1.Location = new System.Drawing.Point(68, 57);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(194, 25);
+            this.label1.Size = new System.Drawing.Size(0, 25);
             this.label1.TabIndex = 1;
-            this.label1.Text = "连接中，请稍等";
             // 
             // button1
             // 
@@ -61,7 +60,7 @@ namespace Login
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // Form_Waiting
+            // Form_Dialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -74,7 +73,7 @@ namespace Login
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Form_Waiting";
+            this.Name = "Form_Dialog";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.Text = "Form2";

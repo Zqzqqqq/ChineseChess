@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ChineseChess;
 
 namespace Login
 {
@@ -16,22 +17,25 @@ namespace Login
 
         private SocketClient client = null;
         private Link link = null;
-        private Form_Waiting form_Waiting = null;
+        private Form_Dialog form_Waiting = null;
         private Thread thread = null;
         public ChineseChess.Form1 form1 = null;
         private SynchronizationContext mainThreadSynContext;
         public 中国象棋()
         {
             InitializeComponent();
-            //ChineseChess.Form1.StepSend += new ChineseChess.Form1.StepSendHandler(Form1_Sended);
             Link.Succeeded += new Link.LinkSuccessHandler(Link_Succeeded);
             Link.Failed += Link_Failed;
             Link.Repeated += Link_Repeated;
-            Form_Waiting.Canceled += Form_Waiting_Canceled;
+            Form_Dialog.Canceled += Form_Waiting_Canceled;
+            Form1.WindowClosed += Form1_Closed;
             mainThreadSynContext = SynchronizationContext.Current;
         }
 
-       
+        private void Form1_Closed()
+        {
+            this.Show();
+        }
         private void Form_Waiting_Canceled()
         {
             if (thread != null)
@@ -81,7 +85,7 @@ namespace Login
         {
             client = new SocketClient(8088);
             link = new Link(client);
-            form_Waiting = new Form_Waiting();
+            form_Waiting = new Form_Dialog("连接中，请稍等");
             form_Waiting.Show();
             thread = new Thread(BeginLinking);
             thread.Start();

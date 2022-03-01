@@ -19,6 +19,12 @@ namespace ChineseChess
                     return new ChatMessageProcessing();
                 case "step":
                     return new StepMessageProcessing();
+                case "regret":
+                    return new RegretMessageProcessing();
+                case "gameover":
+                    return new SurrenderMessageProcessing();
+                case "draw":
+                    return new DrawMessageProcessing();
                 default:
                     return null;
             }
