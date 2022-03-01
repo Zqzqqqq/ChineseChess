@@ -52,7 +52,7 @@ namespace Login
                 this.Hide();
             }));
             
-            form1 = new ChineseChess.Form1(client.socket);
+            form1 = new ChineseChess.Form1(client.socket, textBox_NickName1.Text.ToString(), textBox_NickName2.Text.ToString());
             form1.ShowDialog();
             /*Thread t = new Thread(BeginReceiving);
             t.Start(client);*/
@@ -89,7 +89,7 @@ namespace Login
 
         private void BeginLinking()
         {
-            link.linking(textBox_NickName1.ToString(), textBox_NickName2.ToString());
+            link.linking(textBox_NickName1.Text.ToString(), textBox_NickName2.Text.ToString());
         }
 
         /*private void BeginReceiving(object client)

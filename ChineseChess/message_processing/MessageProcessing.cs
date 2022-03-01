@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Server.message_processing
+namespace ChineseChess.message_processing
 {
     interface MessageProcessing
     {
-        void Process();
+        void Process(Form1 form, string message);
     }
 }

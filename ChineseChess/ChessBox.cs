@@ -158,11 +158,14 @@ namespace ChineseChess
         {
             int r = (int)((p.Y ) / cell);
             int c = (int)((p.X ) / cell);
+
             foreach(Chess chess in chesses)
             {
                 chess.Picked = false;
                 picked = false;
-                if (r == chess.row && c == chess.col)
+                if (r == chess.row && c == chess.col && 
+                    ((chess.flag==ChessFlag.Black && this.flag==PlayFlag.Black)
+                    || (chess.flag == ChessFlag.Red && this.flag == PlayFlag.Red)))
                 {
                     chess.Picked = true;
                     picked = true;

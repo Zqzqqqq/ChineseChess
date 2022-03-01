@@ -16,23 +16,30 @@ namespace ChineseChess
     {
         private Socket socket;
         ChessBox chessbox;
+        public bool canPick = false;
+        MessageProcessingFactory messageProcessingFactory = new MessageProcessingFactory();
+        string me, opponent;
         /*public delegate void StepSendHandler(object sender, StepSendArguments e);
         public static event StepSendHandler StepSend;*/
-        public Form1(Socket socket)
+        public Form1(Socket socket, string me, string opponent)
         {
             InitializeComponent();
             this.socket = socket;
+            this.me = me;
+            this.opponent = opponent;
             Thread t = new Thread(BeginReceiving);
             t.Start(this.socket);
+            SetPictureBoxSize();
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
         }
 
         public Form1()
         {
             
             InitializeComponent();
-            float h = (float)(tableLayoutPanel1.Height * 0.80);
-            float w = (float)(tableLayoutPanel1.Width * 0.75);
-            pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) / 9);
+            SetPictureBoxSize();
             this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
             this.SetStyle(ControlStyles.UserPaint, true);
@@ -41,7 +48,12 @@ namespace ChineseChess
             pictureBox1.BackgroundImage = image;*/
         }
 
-
+        private void SetPictureBoxSize()
+        {
+            float h = (float)(tableLayoutPanel1.Height * 0.90);
+            float w = (float)(tableLayoutPanel1.Width * 0.75);
+            pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) / 9);
+        }
 
         public void AddMessage(string message)
         {
@@ -58,16 +70,22 @@ namespace ChineseChess
             {
                 byte[] buf = new byte[1024 * 1024 * 2];
                 int len = socket.Receive(buf);
-                string s = Encoding.UTF8.GetString(buf, 0, len);
-                AddMessage(s);
+                string[] s = Encoding.UTF8.GetString(buf, 0, len).Split('^');
+                string type = s[0];
+
+                string message = "";
+                for(int i = 1; i < s.Length; i++)
+                {
+                    message += s[i];
+                }
+
+                messageProcessingFactory.Produce(type).Process(this,message);
             }
         }
         
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            float h = (float)(tableLayoutPanel1.Height * 0.80);
-            float w = (float)(tableLayoutPanel1.Width * 0.75);
-            pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) / 9);
+            SetPictureBoxSize();
 
             if (chessbox != null)
             {
@@ -93,19 +111,49 @@ namespace ChineseChess
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             chessbox.SetUISize(pictureBox1);
-            if (chessbox.picked) // 如果当前已经选中了某个棋子
+            if (canPick)
             {
-                chessbox.MoveChess(e.Location); // 移动棋子，若成功
-                
+                if (chessbox.picked) // 如果当前已经选中了某个棋子
+                {
+                    chessbox.MoveChess(e.Location); // 移动棋子，若成功
+
+                }
+                else
+                {
+                    chessbox.PickChess(e.Location);
+                }
+
             }
-            else
-            {
-                chessbox.PickChess(e.Location);
-            }
+            
+            
 
             chessbox.UpdateChesses(pictureBox1.CreateGraphics());
         }
 
-       
+        private void button_regret_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_surrender_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button_draw_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Control || e.KeyCode == Keys.Enter)
+            {
+                socket.Send(Encoding.UTF8.GetBytes("chat^" + me+ ":" + textBox1.Text.ToString()));
+                AddMessage(me + ":" + textBox1.Text.ToString());
+                textBox1.Text = "";
+
+            }
+        }
     }
 }

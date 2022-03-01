@@ -34,9 +34,9 @@ namespace ChineseChess
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.button_draw = new System.Windows.Forms.Button();
+            this.button_surrender = new System.Windows.Forms.Button();
+            this.button_regret = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -55,34 +55,36 @@ namespace ChineseChess
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 90F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1001, 667);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // listBox1
             // 
+            this.listBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 15;
             this.listBox1.Location = new System.Drawing.Point(753, 3);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(245, 527);
+            this.listBox1.Size = new System.Drawing.Size(245, 594);
             this.listBox1.TabIndex = 0;
             // 
             // textBox1
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(753, 536);
+            this.textBox1.Location = new System.Drawing.Point(753, 603);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(245, 128);
+            this.textBox1.Size = new System.Drawing.Size(245, 61);
             this.textBox1.TabIndex = 1;
+            this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 36);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(744, 527);
             this.pictureBox1.TabIndex = 2;
@@ -96,47 +98,62 @@ namespace ChineseChess
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel2.Controls.Add(this.button3, 2, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button2, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button_draw, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button_surrender, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.button_regret, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 536);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 603);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(744, 128);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(744, 61);
             this.tableLayoutPanel2.TabIndex = 3;
             // 
-            // button3
+            // button_draw
             // 
-            this.button3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button3.Location = new System.Drawing.Point(541, 19);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(157, 90);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "求和";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button_draw.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_draw.BackColor = System.Drawing.Color.LemonChiffon;
+            this.button_draw.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_draw.Font = new System.Drawing.Font("隶书", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_draw.ForeColor = System.Drawing.Color.DarkGoldenrod;
+            this.button_draw.Location = new System.Drawing.Point(541, 3);
+            this.button_draw.Name = "button_draw";
+            this.button_draw.Size = new System.Drawing.Size(157, 55);
+            this.button_draw.TabIndex = 2;
+            this.button_draw.Text = "求和";
+            this.button_draw.UseVisualStyleBackColor = false;
+            this.button_draw.Click += new System.EventHandler(this.button_draw_Click);
             // 
-            // button2
+            // button_surrender
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button2.Location = new System.Drawing.Point(293, 19);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(157, 90);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "认输";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button_surrender.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_surrender.BackColor = System.Drawing.Color.LemonChiffon;
+            this.button_surrender.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_surrender.Font = new System.Drawing.Font("隶书", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_surrender.ForeColor = System.Drawing.Color.DarkGoldenrod;
+            this.button_surrender.Location = new System.Drawing.Point(293, 3);
+            this.button_surrender.Name = "button_surrender";
+            this.button_surrender.Size = new System.Drawing.Size(157, 55);
+            this.button_surrender.TabIndex = 1;
+            this.button_surrender.Text = "认输";
+            this.button_surrender.UseVisualStyleBackColor = false;
+            this.button_surrender.Click += new System.EventHandler(this.button_surrender_Click);
             // 
-            // button1
+            // button_regret
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.button1.Location = new System.Drawing.Point(45, 19);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(157, 90);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "悔棋";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button_regret.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.button_regret.BackColor = System.Drawing.Color.LemonChiffon;
+            this.button_regret.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.button_regret.Font = new System.Drawing.Font("隶书", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button_regret.ForeColor = System.Drawing.Color.DarkGoldenrod;
+            this.button_regret.Location = new System.Drawing.Point(45, 3);
+            this.button_regret.Name = "button_regret";
+            this.button_regret.Size = new System.Drawing.Size(157, 55);
+            this.button_regret.TabIndex = 0;
+            this.button_regret.Text = "悔棋";
+            this.button_regret.UseVisualStyleBackColor = false;
+            this.button_regret.Click += new System.EventHandler(this.button_regret_Click);
             // 
             // Form1
             // 
@@ -164,9 +181,9 @@ namespace ChineseChess
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button_draw;
+        private System.Windows.Forms.Button button_surrender;
+        private System.Windows.Forms.Button button_regret;
     }
 }
 

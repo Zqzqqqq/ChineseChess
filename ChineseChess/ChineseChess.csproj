@@ -62,7 +62,10 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="GameBoard.cs" />
+    <Compile Include="message_processing\ChatMessageProcessing.cs" />
+    <Compile Include="message_processing\MessageProcessing.cs" />
+    <Compile Include="message_processing\MessageProcessingFactory.cs" />
+    <Compile Include="message_processing\StepMessageProcessing.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepSendArguments.cs" />
