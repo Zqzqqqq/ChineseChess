@@ -126,8 +126,11 @@ namespace ChineseChess
             radius = cell * 2 / 5;
         }
 
-        public void UpdateChesses(Graphics g)
+        public void UpdateChesses(Graphics g1)
         {
+            //创建位图
+            Bitmap bmp = new Bitmap(boxwidth, boxheight);
+            Graphics g = Graphics.FromImage(bmp);
             g.Clear(Color.FromArgb(227, 192, 138));
             Pen p = new Pen(Color.Black, 6);
             g.DrawLine(p, 3, 0, 3, boxheight);
@@ -154,7 +157,13 @@ namespace ChineseChess
             {
                 chess.Draw(g);
             }
-            
+            g1.DrawImage(bmp, 0, 0);
+            bmp.Dispose();
+            bmp = null;
+            g.Dispose();
+            g = null;
+            //g1.Dispose();
+            //g1 = null;
         }
 
         public void PickChess(Point p)

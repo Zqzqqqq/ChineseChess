@@ -42,7 +42,13 @@ namespace ChineseChess
         public Form1()
         {
             InitializeComponent();
+            SetPictureBoxSize();
+            this.me = "";
+            this.opponent = "";
             chessbox = new ChessBox(pictureBox1, PlayFlag.Red);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+            this.SetStyle(ControlStyles.UserPaint, true);
         }
 
         private void SetPictureBoxSize()
