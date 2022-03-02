@@ -85,7 +85,7 @@ namespace Server
                 // 客户端请求连接对手
                 if (s[0].Equals("link-status"))
                 {
-                    if (!clients.ContainsKey(s[1]))
+                    if (!clients.ContainsKey(s[1]) && !s[1].Equals(s[2]))
                     {
                         clients.Add(s[1], clientSocket);
                         int c = 0;
