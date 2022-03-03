@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,57 @@ namespace ChineseChess.Chesses
         {
             
         }
+
+        public override List<Point> Available(int[,] martrix, bool flag)
+        {
+            int xboundary1, xboundary2;
+            if (flag)
+            {
+                xboundary1 = 5;
+                xboundary2 = 9;
+            }
+            else
+            {
+                xboundary1 = 0;
+                xboundary2 = 4;
+            }
+            List<Point> aval = new List<Point>();
+            if (col - 2 >= 0 && col - 2 <= 8 && row - 2 >= xboundary1 && row - 2 <= xboundary2)
+            {
+                if (martrix[row - 1, col - 1] == 0)
+                {
+                        if (martrix[row - 2, col - 2] != martrix[row, col])
+                            aval.Add(new Point(row - 2, col - 2));
+                }
+            }
+            if (col + 2 >= 0 && col + 2 <= 8 && row - 2 >= xboundary1 && row - 2 <= xboundary2)
+            {
+                if (martrix[row - 1, col + 1] == 0)
+                {
+                        if (martrix[row - 2, col + 2] != martrix[row, col])
+                            aval.Add(new Point(row - 2, col + 2));
+                }
+            }
+            if (col - 2 >= 0 && col - 2 <= 8 && row + 2 >= xboundary1 && row + 2 <= xboundary2)
+            {
+                if (martrix[row + 1, col - 1] == 0)
+                {
+                        if (martrix[row + 2, col - 2] != martrix[row, col])
+                            aval.Add(new Point(row + 2, col - 2));
+                }
+            }
+            if (col + 2 >= 0 && col + 2 <= 8 && row + 2 >= xboundary1 && row + 2 <= xboundary2)
+            {
+                if (martrix[row + 1, col + 1] == 0)
+                {
+                        if (martrix[row + 2, col + 2] != martrix[row, col])
+                            aval.Add(new Point(row + 2, col + 2));
+                }
+            }
+            return aval;
+        }
+
+
         public override Step Move(int row, int col, List<Chess> chesses)
         {
             bool b = row / 5 == 1;

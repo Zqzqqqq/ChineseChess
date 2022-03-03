@@ -34,12 +34,12 @@ namespace ChineseChess
             this.opponent = opponent;
             if(flag == 1)
             {
-                chessbox = new ChessBox(pictureBox1, PlayFlag.Black);
+                chessbox = new ChessBox(pictureBox1, ChessFlag.Black);
                 canPick = false;
             }
             else
             {
-                chessbox = new ChessBox(pictureBox1, PlayFlag.Red);
+                chessbox = new ChessBox(pictureBox1, ChessFlag.Red);
                 canPick = true;
             }
                 
@@ -62,7 +62,7 @@ namespace ChineseChess
         {
             InitializeComponent();
             SetPictureBoxSize();
-            chessbox = new ChessBox(pictureBox1, PlayFlag.Red);
+            chessbox = new ChessBox(pictureBox1, ChessFlag.Red);
         }
 
         /*private void Form_Dialog_Canceled()
@@ -100,6 +100,11 @@ namespace ChineseChess
             chessbox.MoveChess(sRow, sCol, eRow, eCol);
             canPick = true;
             chessbox.UpdateChesses(pictureBox1.CreateGraphics());
+            if (chessbox.JudgeGame() == 1)
+            {
+                closedFlag = true;
+                this.Close();
+            }
         }
 
         private void BeginReceiving(object client)
@@ -154,25 +159,37 @@ namespace ChineseChess
             {
                 if (chessbox.picked) // 如果当前已经选中了某个棋子
                 {
-                    Step step = null;
-                    if ((step=chessbox.MoveChess(e.Location))!=null) // 移动棋子，若成功
+                    if (chessbox.CanMove(e.Location))
                     {
+                        Step step = null;
+                        step = chessbox.MoveChess(e.Location);
                         canPick = false;
                         step.sRow = 9 - step.sRow;
                         step.eRow = 9 - step.eRow;
                         step.sCol = 8 - step.sCol;
                         step.eCol = 8 - step.eCol;
-                        string s = "step^"+step.ToString();
+                        string s = "step^" + step.ToString();
                         socket.Send(Encoding.UTF8.GetBytes(s));
+                        chessbox.UpdateChesses(pictureBox1.CreateGraphics());
+                        if (chessbox.JudgeGame() == 2)
+                        {
+                            closedFlag = true;
+                            this.Close();
+                        }
+                    }
+                    else
+                    {
+                        chessbox.PickChess(e.Location);
+                        chessbox.UpdateChesses(pictureBox1.CreateGraphics());
                     }
                 }
                 else
                 {
                     chessbox.PickChess(e.Location);
+                    chessbox.UpdateChesses(pictureBox1.CreateGraphics());
                 }
 
             }
-            chessbox.UpdateChesses(pictureBox1.CreateGraphics());
         }
 
         private void button_regret_Click(object sender, EventArgs e)
@@ -297,6 +314,7 @@ namespace ChineseChess
         {
             request.Requesting("draw^request");
         }
+
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             if(!closedFlag)

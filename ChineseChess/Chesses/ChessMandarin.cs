@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,52 @@ namespace ChineseChess.Chesses
         {
 
         }
+        public override List<Point> Available(int[,] martrix, bool flag)
+        {
+            int xboundary1, xboundary2;
+            if (flag)
+            {
+                xboundary1 = 7;
+                xboundary2 = 9;
+            }
+            else
+            {
+                xboundary1 = 0;
+                xboundary2 = 2;
+            }
+
+            List<Point> aval = new List<Point>();
+            if (col - 1 >= 3 && col - 1 <= 5 && row - 1 >= xboundary1 && row - 1 <= xboundary2)
+            {
+                if (martrix[row - 1, col - 1] != martrix[row, col])
+                {
+                    aval.Add(new Point(row - 1, col - 1));
+                }
+            }
+            if (col + 1 >= 3 && col + 1 <= 5 && row - 1 >= xboundary1 && row - 1 <= xboundary2)
+            {
+                if (martrix[row - 1, col + 1] != martrix[row, col])
+                {
+                    aval.Add(new Point(row - 1, col + 1));
+                }
+            }
+            if (col - 1 >= 3 && col - 1 <= 5 && row + 1 >= xboundary1 && row + 1 <= xboundary2)
+            {
+                if (martrix[row + 1, col - 1] != martrix[row, col])
+                {
+                    aval.Add(new Point(row + 1, col - 1));
+                }
+            }
+            if (col + 1 >= 3 && col + 1 <= 5 && row + 1 >= xboundary1 && row + 1 <= xboundary2)
+            {
+                if (martrix[row + 1, col + 1] != martrix[row, col])
+                {
+                    aval.Add(new Point(row + 1, col + 1));
+                }
+            }
+            return aval;
+        }
+
         public override Step Move(int row, int col, List<Chess> chesses)
         {
             

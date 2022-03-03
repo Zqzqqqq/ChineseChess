@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChineseChess.Chesses;
 
@@ -20,9 +16,10 @@ namespace ChineseChess
         int boxwidth, boxheight;
         public List<Chess> chesses;
         public List<Chess>[] lastChesses = new List<Chess>[2];
-        public PlayFlag flag;
+        public ChessFlag flag;
         public bool picked = false;
-        public ChessBox(PictureBox box, PlayFlag flag)
+        List<Point> avail = new List<Point>();
+        public ChessBox(PictureBox box, ChessFlag flag)
         {
             this.flag = flag;
             SetUISize(box);
@@ -35,7 +32,7 @@ namespace ChineseChess
         private void InitChesses()
         {
             chesses = new List<Chess>();
-            if (flag == PlayFlag.Red)
+            if (flag == ChessFlag.Red)
             {
                 chesses.Add(new ChessCannon(2, 1, ChessFlag.Black));
                 chesses.Add(new ChessCannon(2, 7, ChessFlag.Black));
@@ -157,6 +154,13 @@ namespace ChineseChess
             {
                 chess.Draw(g);
             }
+            for (int i = 0; i < avail.Count; i++)
+            {
+                int x = avail[i].Y * ChessBox.cell + ChessBox.cell / 2;
+                int y = avail[i].X * ChessBox.cell + ChessBox.cell / 2;
+                Rectangle r1 = new Rectangle(x - ChessBox.radius * 11 / 10, y - ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10);
+                g.DrawRectangle(Pens.Green, r1);
+            }
             g1.DrawImage(bmp, 0, 0);
             bmp.Dispose();
             g.Dispose();
@@ -165,23 +169,131 @@ namespace ChineseChess
 
         public void PickChess(Point p)
         {
-            int r = (int)((p.Y ) / cell);
-            int c = (int)((p.X ) / cell);
-
-            foreach(Chess chess in chesses)
+            int r = (int)((p.Y) / cell);
+            int c = (int)((p.X) / cell);
+            foreach (Chess chess in chesses)
             {
                 chess.Picked = false;
                 picked = false;
-                if (r == chess.row && c == chess.col && 
-                    ((chess.flag==ChessFlag.Black && this.flag==PlayFlag.Black)
-                    || (chess.flag == ChessFlag.Red && this.flag == PlayFlag.Red)))
+            }
+            for (int i = 0; i < chesses.Count; i++)
+            {
+                if (r == chesses[i].row && c == chesses[i].col && chesses[i].flag == flag)
                 {
-                    chess.Picked = true;
+                    avail = GetAvailable(chesses[i]);
+                    chesses[i].Picked = true;
                     picked = true;
                     return;
                 }
-                
             }
+            avail.Clear();
+
+        }
+
+        public int JudgeLose()
+        {
+            int count1 = 0, count2 = 0;
+            for (int i = 0; i < chesses.Count; i++)
+            {
+                if (chesses[i].flag == flag)
+                    count1 += GetAvailable(chesses[i]).Count;
+                else
+                    count2 += GetAvailable(chesses[i]).Count;
+            }
+            if (count1 == 0)
+                return 1;
+            else if (count2 == 0)
+                return 2;
+            return 0;
+        }
+        public List<Point> GetAvailable(Chess C)
+        {
+            List<Point> Avail = new List<Point>();
+            List<Chess> Tempchesses = new List<Chess>();
+            foreach (Chess chess in chesses)
+            {
+                Tempchesses.Add(chess.Clone());
+            }
+            for (int i = 0; i < chesses.Count; i++)
+            {
+                if (C.row == chesses[i].row && C.col == chesses[i].col && chesses[i].flag == C.flag)
+                {
+                    Avail = chesses[i].Available(GenerateMatrix(), C.flag == flag);
+                    for (int j = 0; j < Avail.Count; j++)
+                    {
+                        chesses[i].Move(Avail[j].X, Avail[j].Y, chesses, C.flag == flag);
+                        if (C.flag == flag)
+                        {
+                            if (JudgeChecked() == true || JudgeFace() == true)
+                                Avail.Remove(Avail[j--]);
+                        }
+                        else
+                            if (JudgeCheck() == true || JudgeFace() == true)
+                            Avail.Remove(Avail[j--]);
+                    }
+                    chesses.Clear();
+                    foreach (Chess ch in Tempchesses)
+                    {
+                        chesses.Add(ch.Clone());
+                    }
+                }
+            }
+            return Avail;
+        }
+        public bool JudgeFace()
+        {
+            int colr = 0, colb = 0, rowr = 0, rowb = 0;
+            foreach (Chess chess in chesses)
+            {
+                if (chess is ChessKing && chess.flag == flag)
+                {
+                    colr = chess.col;
+                    rowr = chess.row;
+                }
+                if (chess is ChessKing && chess.flag != flag)
+                {
+                    colb = chess.col;
+                    rowb = chess.row;
+                }
+            }
+            if (colr != colb)
+                return false;
+            foreach (Chess chess in chesses)
+            {
+                if (chess.col == colr && chess.row > rowb && chess.row < rowr)
+                    return false;
+            }
+            return true;
+        }
+        public int[,] GenerateMatrix()
+        {
+            int[,] Matrix = new int[row + 1, col + 1];
+
+            foreach (Chess chess in chesses)
+            {
+                if (chess.flag != flag)
+                {
+                    Matrix[chess.row, chess.col] = 1;
+                }
+                else
+                {
+                    Matrix[chess.row, chess.col] = 2;
+                }
+            }
+            return Matrix;
+        }
+
+        public bool CanMove(Point p)
+        {
+            int r = (int)((p.Y) / cell);
+            int c = (int)((p.X) / cell);
+            Point a = new Point(r, c);
+            for (int i = 0; i < avail.Count; i++)
+            {
+                if (avail[i].X == r && avail[i].Y == c)
+                    return true;
+            }
+            return false;
         }
 
         public bool MoveChess(int sRow, int sCol, int eRow, int eCol)
@@ -208,19 +320,78 @@ namespace ChineseChess
             {
                 if (chess.Picked) // 找到被选中的棋子
                 {
+                    int sRow = chess.row;
+                    int sCol = chess.col;
                     lastChesses[0] = new List<Chess>();
                     chesses.ForEach(i => lastChesses[0].Add(i.Clone()));
-                    if ((f = chess.Move(r, c, chesses))!=null) // 如果该棋子能动
-                    {
-                        
-                    }
+                    chess.Move(r, c, chesses, false);
                     chess.Picked = false;
                     this.picked = false;
-
-                    break;
+                    avail.Clear();
+                    return new Step(sRow, sCol, r, c);
                 }
             }
             return f;
+        }
+
+        public bool JudgeCheck()
+        {
+            int r = -1, c = -1;
+            foreach (Chess chess in chesses)
+            {
+                if (chess is ChessKing && chess.flag != flag)
+                {
+                    r = chess.row;
+                    c = chess.col;
+                }
+            }
+            foreach (Chess chess in chesses)
+            {
+                if (chess.flag == flag)
+                {
+                    List<Point> av = chess.Available(GenerateMatrix(), chess.flag == flag);
+                    for (int i = 0; i < av.Count; i++)
+                    {
+                        if (av[i].X == r && av[i].Y == c)
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public bool JudgeChecked()
+        {
+            int r = -1, c = -1;
+            foreach (Chess chess in chesses)
+            {
+                if (chess is ChessKing && chess.flag == flag)
+                {
+                    r = chess.row;
+                    c = chess.col;
+                }
+            }
+            foreach (Chess chess in chesses)
+            {
+                if (chess.flag != flag && (chess is ChessCannon) || (chess is ChessChariot) || (chess is ChessKnight))
+                {
+                    List<Point> av = chess.Available(GenerateMatrix(), chess.flag == flag);
+                    for (int i = 0; i < av.Count; i++)
+                    {
+                        if (av[i].X == r && av[i].Y == c)
+                            return true;
+                    }
+                }
+                else if (chess.flag != flag && (chess is ChessSoldier))
+                {
+                    List<Point> av = chess.Available(GenerateMatrix(), chess.flag == flag);
+                    for (int i = 0; i < av.Count; i++)
+                    {
+                        if (av[i].X == r && av[i].Y == c)
+                            return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public void Chess_Eaten(object o, ChessInfoArgument e)
@@ -236,6 +407,25 @@ namespace ChineseChess
                 lastChesses[i].ForEach(j => chesses.Add(j));
                 lastChesses[i] = null;
             }
+        }
+        public int JudgeGame()
+        {
+            if (JudgeLose() == 1)
+            {
+                MessageBox.Show("您被绝杀，输掉了本局比赛！");
+                return 1;
+            }
+
+            if (JudgeLose() == 2)
+            {
+                MessageBox.Show("您绝杀了对方，获得了胜利！");
+                return 2;
+            }
+            if (JudgeCheck() == true)
+                MessageBox.Show("将军");
+            if (JudgeChecked() == true)
+                MessageBox.Show("被将军");
+            return 0;
         }
     }
 }

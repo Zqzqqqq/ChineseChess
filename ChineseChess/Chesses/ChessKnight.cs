@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,77 @@ namespace ChineseChess.Chesses
         {
 
         }
+
+        public override List<Point> Available(int[,] martrix, bool flag)
+        {
+            List<Point> aval = new List<Point>();
+            if (col - 2 >= 0 && col - 2 <= 8 && row + 1 >= 0 && row + 1 <= 9)
+            {
+                if (martrix[row, col - 1] == 0)
+                {
+                        if (martrix[row + 1, col - 2] != martrix[row, col])
+                            aval.Add(new Point(row + 1, col - 2));
+                }
+            }
+            if (col - 2 >= 0 && col - 2 <= 8 && row - 1 >= 0 && row - 1 <= 9)
+            {
+                if (martrix[row, col - 1] == 0)
+                {
+                        if (martrix[row - 1, col - 2] != martrix[row, col])
+                            aval.Add(new Point(row - 1, col - 2));
+                }
+            }
+            if (col + 2 >= 0 && col + 2 <= 8 && row - 1 >= 0 && row - 1 <= 9)
+            {
+                if (martrix[row, col + 1] == 0)
+                {
+                        if (martrix[row - 1, col + 2] != martrix[row, col])
+                            aval.Add(new Point(row - 1, col + 2));
+                }
+            }
+            if (col + 2 >= 0 && col + 2 <= 8 && row + 1 >= 0 && row + 1 <= 9)
+            {
+                if (martrix[row, col + 1] == 0)
+                {
+                        if (martrix[row + 1, col + 2] != martrix[row, col])
+                            aval.Add(new Point(row + 1, col + 2));
+                }
+            }
+            if (col - 1 >= 0 && col - 1 <= 8 && row + 2 >= 0 && row + 2 <= 9)
+            {
+                if (martrix[row + 1, col] == 0)
+                {
+                        if (martrix[row + 2, col - 1] != martrix[row, col])
+                            aval.Add(new Point(row + 2, col - 1));
+                }
+            }
+            if (col + 1 >= 0 && col + 1 <= 8 && row + 2 >= 0 && row + 2 <= 9)
+            {
+                if (martrix[row + 1, col] == 0)
+                {
+                        if (martrix[row + 2, col + 1] != martrix[row, col])
+                            aval.Add(new Point(row + 2, col + 1));
+                }
+            }
+            if (col - 1 >= 0 && col - 1 <= 8 && row - 2 >= 0 && row - 2 <= 9)
+            {
+                if (martrix[row - 1, col] == 0)
+                {
+                        if (martrix[row - 2, col - 1] != martrix[row, col])
+                            aval.Add(new Point(row - 2, col - 1));
+                }
+            }
+            if (col + 1 >= 0 && col + 1 <= 8 && row - 2 >= 0 && row - 2 <= 9)
+            {
+                if (martrix[row - 1, col] == 0)
+                {
+                        if (martrix[row - 2, col + 1] != martrix[row, col])
+                            aval.Add(new Point(row - 2, col + 1));
+                }
+            }
+            return aval;
+        }
+
         public override Step Move(int row, int col, List<Chess> chesses)
         {
 

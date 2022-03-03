@@ -23,7 +23,7 @@ namespace Login
         }
         public SocketClient(int port)
         {
-            this.ip = "127.0.0.1";
+            this.ip = "172.20.10.3";
             this.port = port;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,82 @@ namespace ChineseChess.Chesses
         {
 
         }
+
+        public override List<Point> Available(int[,] martrix, bool flag)
+        {
+            int count = 0;
+            List<Point> aval = new List<Point>();
+            for (int i = row, j = col - 1; j >= 0; j--)
+            {
+                if (martrix[i, j] == 0)
+                {
+                    aval.Add(new Point(i, j));
+                }
+                else
+                {
+                    if (++count == 1)
+                    {
+                        if (martrix[i, j] != martrix[row, col])
+                            aval.Add(new Point(i, j));
+                        count = 0;
+                        break;
+                    }
+                }
+            }
+            for (int i = row, j = col + 1; j <= 8; j++)
+            {
+                if (martrix[i, j] == 0)
+                {
+                    aval.Add(new Point(i, j));
+                }
+                else
+                {
+                    if (++count == 1)
+                    {
+                        if (martrix[i, j] != martrix[row, col])
+                            aval.Add(new Point(i, j));
+                        count = 0;
+                        break;
+                    }
+                }
+            }
+            for (int i = row - 1, j = col; i >= 0; i--)
+            {
+                if (martrix[i, j] == 0)
+                {
+                    aval.Add(new Point(i, j));
+                }
+                else
+                {
+                    if (++count == 1)
+                    {
+                        if (martrix[i, j] != martrix[row, col])
+                            aval.Add(new Point(i, j));
+                        count = 0;
+                        break;
+                    }
+                }
+            }
+            for (int i = row + 1, j = col; i <= 9; i++)
+            {
+                if (martrix[i, j] == 0)
+                {
+                    aval.Add(new Point(i, j));
+                }
+                else
+                {
+                    if (++count == 1)
+                    {
+                        if (martrix[i, j] != martrix[row, col])
+                            aval.Add(new Point(i, j));
+                        count = 0;
+                        break;
+                    }
+                }
+            }
+            return aval;
+        }
+
         public override Step Move(int row, int col, List<Chess> chesses)
         {
             if (row == this.row)

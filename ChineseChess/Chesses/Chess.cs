@@ -107,5 +107,7 @@ namespace ChineseChess
         {
             return this.MemberwiseClone() as Chess;
         }
+
+        public abstract List<Point> Available(int[,] martrix, bool flag);
     }
 }

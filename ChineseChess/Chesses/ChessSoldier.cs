@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,76 @@ namespace ChineseChess.Chesses
     {
         public ChessSoldier(int row, int col, ChessFlag flag) : base(row, col, flag, flag == ChessFlag.Black ? "卒" : "兵")
         {
+        }
+
+        public override List<Point> Available(int[,] martrix, bool flag)
+        {
+            List<Point> aval = new List<Point>();
+            if (flag)
+            {
+                if (row >= 5)
+                {
+                    if (martrix[row - 1, col] != martrix[row, col])
+                        aval.Add(new Point(row - 1, col));
+                }
+                else
+                {
+                    if (col - 1 >= 0 && col - 1 <= 8 && row >= 0 && row <= 9)
+                    {
+                        if (martrix[row, col - 1] != martrix[row, col])
+                        {
+                            aval.Add(new Point(row, col - 1));
+                        }
+                    }
+                    if (col + 1 >= 0 && col + 1 <= 8 && row >= 0 && row <= 9)
+                    {
+                        if (martrix[row, col + 1] != martrix[row, col])
+                        {
+                            aval.Add(new Point(row, col + 1));
+                        }
+                    }
+                    if (col >= 0 && col <= 8 && row - 1 >= 0 && row - 1 <= 9)
+                    {
+                        if (martrix[row - 1, col] != martrix[row, col])
+                        {
+                            aval.Add(new Point(row - 1, col));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (row <= 4)
+                {
+                    if (martrix[row + 1, col] != martrix[row, col])
+                        aval.Add(new Point(row + 1, col));
+                }
+                else
+                {
+                    if (col - 1 >= 0 && col - 1 <= 8 && row >= 0 && row <= 9)
+                    {
+                        if (martrix[row, col - 1] != martrix[row, col])
+                        {
+                            aval.Add(new Point(row, col - 1));
+                        }
+                    }
+                    if (col + 1 >= 0 && col + 1 <= 8 && row >= 0 && row <= 9)
+                    {
+                        if (martrix[row, col + 1] != martrix[row, col])
+                        {
+                            aval.Add(new Point(row, col + 1));
+                        }
+                    }
+                    if (col >= 0 && col <= 8 && row + 1 >= 0 && row + 1 <= 9)
+                    {
+                        if (martrix[row + 1, col] != martrix[row, col])
+                        {
+                            aval.Add(new Point(row + 1, col));
+                        }
+                    }
+                }
+            }
+            return aval;
         }
 
         public override Step Move(int row, int col, List<Chess> chesses)
