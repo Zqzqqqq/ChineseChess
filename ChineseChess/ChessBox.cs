@@ -19,6 +19,7 @@ namespace ChineseChess
         public ChessFlag flag;
         public bool picked = false;
         List<Point> avail = new List<Point>();
+        public Step lastStep;
         public ChessBox(PictureBox box, ChessFlag flag)
         {
             this.flag = flag;
@@ -161,6 +162,17 @@ namespace ChineseChess
                 Rectangle r1 = new Rectangle(x - ChessBox.radius * 11 / 10, y - ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10);
                 g.DrawRectangle(Pens.Green, r1);
             }
+            if (lastStep != null)
+            {
+                int x = lastStep.sCol * ChessBox.cell + ChessBox.cell / 2;
+                int y = lastStep.sRow * ChessBox.cell + ChessBox.cell / 2;
+                Rectangle r1 = new Rectangle(x - ChessBox.radius * 11 / 10, y - ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10);
+                g.DrawRectangle(Pens.Red, r1);
+                x = lastStep.eCol * ChessBox.cell + ChessBox.cell / 2;
+                y = lastStep.eRow * ChessBox.cell + ChessBox.cell / 2;
+                r1 = new Rectangle(x - ChessBox.radius * 11 / 10, y - ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10, 2 * ChessBox.radius * 11 / 10);
+                g.DrawRectangle(Pens.Red, r1);
+            }
             g1.DrawImage(bmp, 0, 0);
             bmp.Dispose();
             g.Dispose();
@@ -183,11 +195,12 @@ namespace ChineseChess
                     avail = GetAvailable(chesses[i]);
                     chesses[i].Picked = true;
                     picked = true;
+                    lastStep = null;
                     return;
                 }
             }
             avail.Clear();
-
+            
         }
 
         public int JudgeLose()
@@ -305,6 +318,7 @@ namespace ChineseChess
                     lastChesses[1] = new List<Chess>();
                     chesses.ForEach(i => lastChesses[1].Add(i.Clone()));
                     chess.Move(eRow, eCol, chesses, false);
+                    lastStep = new Step(sRow, sCol, eRow, eCol);
                     return true;
                 }
             }
@@ -328,6 +342,7 @@ namespace ChineseChess
                     chess.Picked = false;
                     this.picked = false;
                     avail.Clear();
+                    lastStep = new Step(sRow, sCol, r, c);
                     return new Step(sRow, sCol, r, c);
                 }
             }
