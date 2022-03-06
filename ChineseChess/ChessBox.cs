@@ -474,9 +474,9 @@ namespace ChineseChess
         /// </summary>
         /// <param name="o"></param>
         /// <param name="e"></param>
-        public void Chess_Eaten(object o, ChessInfoArgument e)
+        public void Chess_Eaten(object o, Chess e)
         {
-            chesses.Remove(e.Chess);
+            chesses.Remove(e);
         }
 
         /// <summary>

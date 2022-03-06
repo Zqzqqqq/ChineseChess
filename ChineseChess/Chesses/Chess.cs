@@ -19,7 +19,7 @@ namespace ChineseChess
         public int row, col;
         public ChessFlag flag;
         public string name;
-        public delegate void EatHandler(object o, ChessInfoArgument e);
+        public delegate void EatHandler(object o, Chess e);
         public static event EatHandler Eat;
         private bool picked = false;
         public Chess(int row, int col, ChessFlag flag, string name)
@@ -74,8 +74,7 @@ namespace ChineseChess
             {
                 if (c.row == row && c.col == col)
                 {
-                    ChessInfoArgument e = new ChessInfoArgument(c);
-                    OnEating(e);
+                    OnEating(c);
                     break;
                 }
 
@@ -86,7 +85,7 @@ namespace ChineseChess
             return true;
         }
 
-        protected virtual void OnEating(ChessInfoArgument e)
+        protected virtual void OnEating(Chess e)
         {
             Eat?.Invoke(this, e);
         }

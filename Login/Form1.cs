@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Sockets;
 using ChineseChess;
 
 namespace Login
@@ -59,7 +60,7 @@ namespace Login
         /// </summary>
         /// <param name="o"></param>
         /// <param name="e"></param>
-        private void Link_Succeeded(object o, LinkResultArguments e)
+        private void Link_Succeeded(object o, int e)
         {
             this.Invoke(new Action(() =>
             {
@@ -67,7 +68,7 @@ namespace Login
                 this.Hide();
             }));
 
-            form1 = new global::ChineseChess.Form1(client.socket, textBox_NickName1.Text.ToString(), textBox_NickName2.Text.ToString(), e.PlayFlag);
+            form1 = new global::ChineseChess.Form1(client.socket, textBox_NickName1.Text.ToString(), textBox_NickName2.Text.ToString(), e);
             form1.ShowDialog();
 
         }

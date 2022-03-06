@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Login
+namespace Sockets
 {
-    class SocketClient
+    public class SocketClient
     {
         private string ip;
         private int port;
@@ -42,7 +42,7 @@ namespace Login
                 //向服务器发送消息
                 string sendMessage = "link-status" + "^" + src + "^" + dest;
                 socket.Send(Encoding.UTF8.GetBytes(sendMessage));
-               
+
                 while (true)
                 {
                     int len = socket.Receive(buffer);
@@ -50,10 +50,10 @@ namespace Login
                     if (s[s.Length - 2].Contains("success"))
                     {
                         if (s[s.Length - 2].Contains("-0"))
-                            return 0+"";
-                        return 1+"";
+                            return 0 + "";
+                        return 1 + "";
                     }
-                    switch (s[s.Length-2])
+                    switch (s[s.Length - 2])
                     {
                         case "failure":
                             return "failure";

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Login", "..\Login\Login.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "..\Server\Server.csproj", "{05D8E75A-C015-40AC-B4FC-237EF398E538}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sockets", "..\Sockets\Sockets.csproj", "{46095940-17DD-4820-AF3E-BD94703AFB51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{05D8E75A-C015-40AC-B4FC-237EF398E538}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05D8E75A-C015-40AC-B4FC-237EF398E538}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05D8E75A-C015-40AC-B4FC-237EF398E538}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46095940-17DD-4820-AF3E-BD94703AFB51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46095940-17DD-4820-AF3E-BD94703AFB51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46095940-17DD-4820-AF3E-BD94703AFB51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46095940-17DD-4820-AF3E-BD94703AFB51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

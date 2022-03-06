@@ -5,11 +5,10 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
-namespace Server
+namespace Sockets
 {
-    class SocketServer
+    public class SocketServer
     {
         public Dictionary<string, Socket> clients = new Dictionary<string, Socket> { };
         public Dictionary<Socket, Socket> opponent = new Dictionary<Socket, Socket> { };
@@ -94,7 +93,7 @@ namespace Server
                         int c = 0;
                         while (!clients.ContainsKey(s[2]) && c < 60000)
                         {
-                            
+
                             clientSocket.Send(Encoding.UTF8.GetBytes("wait "));
                             c++;
                             Thread.Sleep(10);
@@ -149,14 +148,14 @@ namespace Server
                     //消息为gameover的话就移除双方的socket和昵称记录
                     if (over[0].Equals("gameover"))
                     {
-                        foreach(string s in clients.Keys)
+                        foreach (string s in clients.Keys)
                         {
                             if (clients[s] == clientSocket)
                             {
                                 clients.Remove(s);
                                 break;
                             }
-                            
+
                         }
                         foreach (string s in clients.Keys)
                         {
@@ -166,7 +165,7 @@ namespace Server
                                 break;
                             }
                         }
-                        
+
                         opponent.Remove(opponent[clientSocket]);
                         opponent.Remove(clientSocket);
                     }

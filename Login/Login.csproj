@@ -45,6 +45,9 @@
     <Reference Include="LinkProgress">
       <HintPath>..\LinkProgress\bin\Debug\LinkProgress.exe</HintPath>
     </Reference>
+    <Reference Include="Sockets">
+      <HintPath>..\Sockets\bin\Debug\netstandard2.0\Sockets.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,7 +71,6 @@
     <Compile Include="LinkResultArguments.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SocketClient.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
