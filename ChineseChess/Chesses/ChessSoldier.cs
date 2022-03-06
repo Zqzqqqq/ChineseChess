@@ -13,17 +13,17 @@ namespace ChineseChess.Chesses
         {
         }
 
-        public override List<Point> Available(int[,] martrix, bool flag)
+        public override List<Point> Available(int[,] martrix, bool flag)//
         {
             List<Point> aval = new List<Point>();
-            if (flag)
+            if (flag)//如果是友方
             {
-                if (row >= 5)
+                if (row >= 5)//如果没过河
                 {
-                    if (martrix[row - 1, col] != martrix[row, col])
+                    if (martrix[row - 1, col] != martrix[row, col])//只能往上走
                         aval.Add(new Point(row - 1, col));
                 }
-                else
+                else//过河之后可往上、左、右走
                 {
                     if (col - 1 >= 0 && col - 1 <= 8 && row >= 0 && row <= 9)
                     {
@@ -48,14 +48,14 @@ namespace ChineseChess.Chesses
                     }
                 }
             }
-            else
+            else//如果是敌方
             {
-                if (row <= 4)
+                if (row <= 4)//如果没过河
                 {
-                    if (martrix[row + 1, col] != martrix[row, col])
+                    if (martrix[row + 1, col] != martrix[row, col])//只能往下走
                         aval.Add(new Point(row + 1, col));
                 }
-                else
+                else//过河之后可往下、左、右走
                 {
                     if (col - 1 >= 0 && col - 1 <= 8 && row >= 0 && row <= 9)
                     {
@@ -83,7 +83,7 @@ namespace ChineseChess.Chesses
             return aval;
         }
 
-        public override Step Move(int row, int col, List<Chess> chesses)
+        /*public override Step Move(int row, int col, List<Chess> chesses)
         {
             bool b = this.row / 5 == 1;
             if (b) // 没有过河的时候只能往前走
@@ -213,6 +213,6 @@ namespace ChineseChess.Chesses
                 }
                 return null;
             }
-        }
+        }*/
     }
 }

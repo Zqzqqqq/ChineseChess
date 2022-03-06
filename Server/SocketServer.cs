@@ -72,7 +72,10 @@ namespace Server
 
             }
         }
-
+        /// <summary>
+        /// 判断是否能开始连接
+        /// </summary>
+        /// <param name="socket"></param>
         private void FormLink(Object socket)
         {
             Socket clientSocket = (Socket)socket;
@@ -123,6 +126,10 @@ namespace Server
             }
         }
 
+        /// <summary>
+        /// 形成连接后开始转发消息
+        /// </summary>
+        /// <param name="socket"></param>
         private void ReceiveMessage(Object socket)
         {
             Socket clientSocket = (Socket)socket;
@@ -135,9 +142,11 @@ namespace Server
                     int length = clientSocket.Receive(buf);
                     string step = Encoding.UTF8.GetString(buf, 0, length);
                     Console.WriteLine("接收客户端{0},消息{1}", clientSocket.RemoteEndPoint.ToString(), step);
+                    //发送至对手的客户端
                     opponent[clientSocket].Send(Encoding.UTF8.GetBytes(step));
                     Console.WriteLine("发送至客户端{0},消息{1}", opponent[clientSocket].RemoteEndPoint.ToString(), step);
                     string[] over = step.Split('^');
+                    //消息为gameover的话就移除双方的socket和昵称记录
                     if (over[0].Equals("gameover"))
                     {
                         foreach(string s in clients.Keys)

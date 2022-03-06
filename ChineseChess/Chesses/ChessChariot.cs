@@ -14,7 +14,7 @@ namespace ChineseChess.Chesses
 
         }
 
-        public override List<Point> Available(int[,] martrix, bool flag)
+        public override List<Point> Available(int[,] martrix, bool flag)//与炮类似，遍历上下左右四个方向
         {
             int count = 0;
             List<Point> aval = new List<Point>();
@@ -26,7 +26,7 @@ namespace ChineseChess.Chesses
                 }
                 else
                 {
-                    if (++count == 1)
+                    if (++count == 1)//第一次碰到不是空点的点判断是不是对方棋子
                     {
                         if (martrix[i, j] != martrix[row, col])
                             aval.Add(new Point(i, j));
@@ -89,7 +89,7 @@ namespace ChineseChess.Chesses
             return aval;
         }
 
-        public override Step Move(int row, int col, List<Chess> chesses)
+        /*public override Step Move(int row, int col, List<Chess> chesses)
         {
             if (row == this.row)
             {
@@ -174,8 +174,8 @@ namespace ChineseChess.Chesses
             }
 
             return null; // 非直线移动那么直接返回false
-        }
+        }*/
 
-        
+
     }
 }

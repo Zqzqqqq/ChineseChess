@@ -46,7 +46,6 @@ namespace ChineseChess
             Thread t = new Thread(BeginReceiving);
             t.Start(this.socket);
             SetPictureBoxSize();
-            //Form_Dialog.Canceled += Form_Dialog_Canceled;
             Form_Request.Confirmed1 += RegretConfirmed1;
             Form_Request.Rejected1 += RegretRejected1;
             Form_Request.Confirmed2 += DrawConfirmed1;
@@ -56,30 +55,16 @@ namespace ChineseChess
             this.SetStyle(ControlStyles.UserPaint, true);
         }
 
-        
-
         public Form1()
         {
             InitializeComponent();
             SetPictureBoxSize();
             chessbox = new ChessBox(pictureBox1, ChessFlag.Red);
         }
-
-        /*private void Form_Dialog_Canceled()
-        {
-            if (thread != null)
-            {
-                thread.Abort();
-                this.Invoke(new Action(() =>
-                {
-                    this.form_Dialog.Close();
-                }));
-            }
-            
-            
-        }*/
-         
         
+        /// <summary>
+        /// 根据窗口大小动态更新picturebox的大小
+        /// </summary>
         private void SetPictureBoxSize()
         {
             float h = (float)(tableLayoutPanel1.Height * 0.90);
@@ -87,6 +72,10 @@ namespace ChineseChess
             pictureBox1.Size = new Size((int)Math.Min(h * 9, w * 10) / 10, (int)Math.Min(h * 9, w * 10) / 9);
         }
 
+        /// <summary>
+        /// 在列表框中添加消息
+        /// </summary>
+        /// <param name="message"></param>
         public void AddMessage(string message)
         {
             this.Invoke(new Action(() =>
@@ -95,6 +84,13 @@ namespace ChineseChess
             }));
         }
 
+        /// <summary>
+        /// 收到敌方移动后调用的move
+        /// </summary>
+        /// <param name="sRow"></param>
+        /// <param name="sCol"></param>
+        /// <param name="eRow"></param>
+        /// <param name="eCol"></param>
         public void OpponentMove(int sRow, int sCol, int eRow, int eCol)
         {
             chessbox.MoveChess(sRow, sCol, eRow, eCol);
@@ -107,6 +103,10 @@ namespace ChineseChess
             }
         }
 
+        /// <summary>
+        /// 开始游戏后接收服务器转发的消息，并根据消息类型进行相应的处理
+        /// </summary>
+        /// <param name="client"></param>
         private void BeginReceiving(object client)
         {
             Socket socket = (Socket)client;
@@ -127,6 +127,11 @@ namespace ChineseChess
             }
         }
         
+        /// <summary>
+        /// 处理窗口大小变化事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
             SetPictureBoxSize();
@@ -144,6 +149,11 @@ namespace ChineseChess
             
         }
 
+        /// <summary>
+        /// 处理绘图事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -151,7 +161,11 @@ namespace ChineseChess
             chessbox.UpdateChesses(g);
         }
 
-
+        /// <summary>
+        /// 处理用户点击棋盘事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
         {
             chessbox.SetUISize(pictureBox1);
@@ -164,6 +178,7 @@ namespace ChineseChess
                         Step step = null;
                         step = chessbox.MoveChess(e.Location);
                         canPick = false;
+                        // 中心对称处理，将坐标发给对方
                         step.sRow = 9 - step.sRow;
                         step.eRow = 9 - step.eRow;
                         step.sCol = 8 - step.sCol;
@@ -192,6 +207,11 @@ namespace ChineseChess
             }
         }
 
+        /// <summary>
+        /// 悔棋按钮点击事件处理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_regret_Click(object sender, EventArgs e)
         {
             if (chessbox.lastChesses[0] != null)
@@ -206,6 +226,9 @@ namespace ChineseChess
             }
         }
 
+        /// <summary>
+        /// 我方同意对方的悔棋请求
+        /// </summary>
         public void RegretConfirmed1()
         {
             socket.Send(Encoding.UTF8.GetBytes("regret^confirm"));
@@ -215,19 +238,20 @@ namespace ChineseChess
             chessbox.UpdateChesses(pictureBox1.CreateGraphics());
         }
 
+        /// <summary>
+        /// 我方拒绝对方的悔棋请求
+        /// </summary>
         public void RegretRejected1()
         {
             socket.Send(Encoding.UTF8.GetBytes("regret^reject"));
             this.form_Request.Close();
         }
 
+        /// <summary>
+        /// 对方接受了我方的悔棋请求
+        /// </summary>
         public void RegretConfirmed()
         {
-            /*this.Invoke(new Action(() =>
-            {
-                chessbox.Regret(0);
-                chessbox.UpdateChesses(pictureBox1.CreateGraphics());
-            }));*/
             this.form_Dialog.Close();
             ShowHint("对方接受了您的悔棋要求！");
             canPick = true;
@@ -235,6 +259,9 @@ namespace ChineseChess
             chessbox.UpdateChesses(pictureBox1.CreateGraphics());
         }
 
+        /// <summary>
+        /// 对方拒绝了我方的悔棋请求
+        /// </summary>
         public void RegretRejected()
         {
             this.form_Dialog.Close();
@@ -242,28 +269,48 @@ namespace ChineseChess
             
         }
 
+        /// <summary>
+        /// 我方收到对方发来的悔棋请求
+        /// </summary>
         public void RegretRequested()
         {
             form_Request = new Form_Request("对方向您发起了悔棋请求！",1);
             form_Request.ShowDialog();
         }
 
+        /// <summary>
+        /// 向对方发送悔棋请求
+        /// </summary>
         private void BeginRegretRequesting()
         {
             request.Requesting("regret^request");
         }
 
+        /// <summary>
+        /// 显示指定信息的messagebox函数
+        /// </summary>
+        /// <param name="hint"></param>
         public void ShowHint(string hint)
         {
             MessageBox.Show(hint, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        /// <summary>
+        /// 投降按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_surrender_Click(object sender, EventArgs e)
         {
             ShowHint("投降成功！");
             this.Close();
         }
 
+        /// <summary>
+        /// 和棋按钮点击事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_draw_Click(object sender, EventArgs e)
         {
             form_Dialog = new Form_Dialog("等待对方同意中");
@@ -274,6 +321,9 @@ namespace ChineseChess
             thread.Start();
         }
 
+        /// <summary>
+        /// 我方同意对方的和棋请求
+        /// </summary>
         public void DrawConfirmed1()
         {
             socket.Send(Encoding.UTF8.GetBytes("draw^confirm"));
@@ -283,12 +333,18 @@ namespace ChineseChess
             this.Close();
         }
 
+        /// <summary>
+        /// 我方拒绝对方的和棋请求
+        /// </summary>
         public void DrawRejected1()
         {
             socket.Send(Encoding.UTF8.GetBytes("draw^reject"));
             this.form_Request.Close();
         }
 
+        /// <summary>
+        /// 对方接收了我方的和棋请求
+        /// </summary>
         public void DrawConfirmed()
         {
             this.form_Dialog.Close();
@@ -297,6 +353,9 @@ namespace ChineseChess
             this.Close();
         }
 
+        /// <summary>
+        /// 对方拒绝了我方的和棋请求
+        /// </summary>
         public void DrawRejected()
         {
             this.form_Dialog.Close();
@@ -304,24 +363,40 @@ namespace ChineseChess
 
         }
 
+        /// <summary>
+        /// 收到对方发送的和棋请求
+        /// </summary>
         public void DrawRequested()
         {
             form_Request = new Form_Request("对方向您发起了和棋请求！",2);
             form_Request.ShowDialog();
         }
 
+        /// <summary>
+        /// 向对方发送和棋请求
+        /// </summary>
         private void BeginDrawRequesting()
         {
             request.Requesting("draw^request");
         }
 
+        /// <summary>
+        /// 窗口关闭时的事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
+            //如果还没有发送过gameover消息
             if(!closedFlag)
                 socket.Send(Encoding.UTF8.GetBytes("gameover^ "));
             WindowClosed?.Invoke();
         }
         
+        /// <summary>
+        /// 对方投降了
+        /// </summary>
+        /// <param name="s"></param>
         public void Surrendered(string s)
         {
             ShowHint(s);
@@ -329,6 +404,11 @@ namespace ChineseChess
             this.Close();
         }
 
+        /// <summary>
+        /// 发送消息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Control || e.KeyCode == Keys.Enter)

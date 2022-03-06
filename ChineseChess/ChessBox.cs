@@ -12,13 +12,13 @@ namespace ChineseChess
     class ChessBox
     {
         public static int row = 9, col = 8;
-        public static int gap, radius, cell;
-        int boxwidth, boxheight;
+        public static int cell, radius;
+        public int boxwidth, boxheight;
         public List<Chess> chesses;
-        public List<Chess>[] lastChesses = new List<Chess>[2];
+        public List<Chess>[] lastChesses = new List<Chess>[2]; //0是己方走之后的棋盘，1是敌方走之后的棋盘
         public ChessFlag flag;
         public bool picked = false;
-        List<Point> avail = new List<Point>();
+        public List<Point> avail = new List<Point>();
         public Step lastStep;
         public ChessBox(PictureBox box, ChessFlag flag)
         {
@@ -29,7 +29,9 @@ namespace ChineseChess
             lastChesses[1] = null;
             Chess.Eat += new Chess.EatHandler(Chess_Eaten);
         }
-
+        /// <summary>
+        /// 初始化棋盘
+        /// </summary>
         private void InitChesses()
         {
             chesses = new List<Chess>();
@@ -105,6 +107,10 @@ namespace ChineseChess
             }
         }
 
+        /// <summary>
+        /// 设置棋盘size
+        /// </summary>
+        /// <param name="box"></param>
         public void SetUISize(PictureBox box)
         {
             boxwidth = box.Width;
@@ -120,10 +126,12 @@ namespace ChineseChess
                 boxheight = box.Height;
             }*/
             cell = boxwidth / (col + 1);
-            gap = cell;
             radius = cell * 2 / 5;
         }
-
+        /// <summary>
+        /// 重绘棋盘
+        /// </summary>
+        /// <param name="g1"></param>
         public void UpdateChesses(Graphics g1)
         {
             //创建位图
@@ -138,23 +146,24 @@ namespace ChineseChess
             p = new Pen(Color.Black, 2);
             for (int i = 0; i < 10; i++)
             {
-                g.DrawLine(p, gap / 2, gap * i + gap / 2, gap * 17 / 2, gap * i + gap / 2);
+                g.DrawLine(p, cell / 2, cell * i + cell / 2, cell * 17 / 2, cell * i + cell / 2);
             }
-            g.DrawLine(p, gap / 2, gap / 2, gap / 2, gap * 19 / 2);
-            g.DrawLine(p, gap * 17 / 2, gap / 2, gap * 17 / 2, gap * 19 / 2);
+            g.DrawLine(p, cell / 2, cell / 2, cell / 2, cell * 19 / 2);
+            g.DrawLine(p, cell * 17 / 2, cell / 2, cell * 17 / 2, cell * 19 / 2);
             for (int i = 1; i < 8; i++)
             {
-                g.DrawLine(p, gap * i + gap / 2, gap / 2, gap * i + gap / 2, gap * 9 / 2);
-                g.DrawLine(p, gap * i + gap / 2, gap * 5 + gap / 2, gap * i + gap / 2, gap * 19 / 2);
+                g.DrawLine(p, cell * i + cell / 2, cell / 2, cell * i + cell / 2, cell * 9 / 2);
+                g.DrawLine(p, cell * i + cell / 2, cell * 5 + cell / 2, cell * i + cell / 2, cell * 19 / 2);
             }
-            g.DrawLine(p, gap * 7 / 2, gap / 2, gap * 11 / 2, gap * 5 / 2);
-            g.DrawLine(p, gap * 11 / 2, gap / 2, gap * 7 / 2, gap * 5 / 2);
-            g.DrawLine(p, gap * 7 / 2, gap * 15 / 2, gap * 11 / 2, gap * 19 / 2);
-            g.DrawLine(p, gap * 11 / 2, gap * 15 / 2, gap * 7 / 2, gap * 19 / 2);
+            g.DrawLine(p, cell * 7 / 2, cell / 2, cell * 11 / 2, cell * 5 / 2);
+            g.DrawLine(p, cell * 11 / 2, cell / 2, cell * 7 / 2, cell * 5 / 2);
+            g.DrawLine(p, cell * 7 / 2, cell * 15 / 2, cell * 11 / 2, cell * 19 / 2);
+            g.DrawLine(p, cell * 11 / 2, cell * 15 / 2, cell * 7 / 2, cell * 19 / 2);
             foreach (Chess chess in chesses)
             {
                 chess.Draw(g);
             }
+            // 渐变和立体效果
             for (int i = 0; i < avail.Count; i++)
             {
                 int x = avail[i].Y * ChessBox.cell + ChessBox.cell / 2;
@@ -179,6 +188,10 @@ namespace ChineseChess
             //g1.Dispose();
         }
 
+        /// <summary>
+        /// 处理选中棋子
+        /// </summary>
+        /// <param name="p"></param>
         public void PickChess(Point p)
         {
             int r = (int)((p.Y) / cell);
@@ -203,6 +216,10 @@ namespace ChineseChess
             
         }
 
+        /// <summary>
+        /// 判断是否有一方被将死
+        /// </summary>
+        /// <returns>1为己方输，2为地方输，0为无</returns>
         public int JudgeLose()
         {
             int count1 = 0, count2 = 0;
@@ -219,6 +236,12 @@ namespace ChineseChess
                 return 2;
             return 0;
         }
+
+        /// <summary>
+        /// 获取某个棋子可以走的位置
+        /// </summary>
+        /// <param name="C"></param>
+        /// <returns></returns>
         public List<Point> GetAvailable(Chess C)
         {
             List<Point> Avail = new List<Point>();
@@ -253,6 +276,11 @@ namespace ChineseChess
             }
             return Avail;
         }
+
+        /// <summary>
+        /// 判断是否对将
+        /// </summary>
+        /// <returns></returns>
         public bool JudgeFace()
         {
             int colr = 0, colb = 0, rowr = 0, rowb = 0;
@@ -278,6 +306,11 @@ namespace ChineseChess
             }
             return true;
         }
+
+        /// <summary>
+        /// 生成棋盘矩阵
+        /// </summary>
+        /// <returns></returns>
         public int[,] GenerateMatrix()
         {
             int[,] Matrix = new int[row + 1, col + 1];
@@ -296,6 +329,11 @@ namespace ChineseChess
             return Matrix;
         }
 
+        /// <summary>
+        /// 判断点击的某个地方棋子能否移动过去
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public bool CanMove(Point p)
         {
             int r = (int)((p.Y) / cell);
@@ -309,6 +347,14 @@ namespace ChineseChess
             return false;
         }
 
+        /// <summary>
+        /// 移动棋子（敌方）
+        /// </summary>
+        /// <param name="sRow">起始行</param>
+        /// <param name="sCol">起始列</param>
+        /// <param name="eRow">结束行</param>
+        /// <param name="eCol">结束列</param>
+        /// <returns></returns>
         public bool MoveChess(int sRow, int sCol, int eRow, int eCol)
         {
             foreach(Chess chess in chesses)
@@ -325,6 +371,11 @@ namespace ChineseChess
             return false;
         }
 
+        /// <summary>
+        /// 移动棋子（我方）
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public Step MoveChess(Point p)
         {
             int r = (int)((p.Y) / cell);
@@ -349,6 +400,10 @@ namespace ChineseChess
             return f;
         }
 
+        /// <summary>
+        /// 判断是否将军对面
+        /// </summary>
+        /// <returns></returns>
         public bool JudgeCheck()
         {
             int r = -1, c = -1;
@@ -374,6 +429,11 @@ namespace ChineseChess
             }
             return false;
         }
+
+        /// <summary>
+        /// 判断是否被对面将军
+        /// </summary>
+        /// <returns></returns>
         public bool JudgeChecked()
         {
             int r = -1, c = -1;
@@ -409,11 +469,20 @@ namespace ChineseChess
             return false;
         }
 
+        /// <summary>
+        /// 处理吃棋子的事件
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="e"></param>
         public void Chess_Eaten(object o, ChessInfoArgument e)
         {
             chesses.Remove(e.Chess);
         }
 
+        /// <summary>
+        /// 悔棋
+        /// </summary>
+        /// <param name="i"></param>
         public void Regret(int i)
         {
             if (lastChesses[i] != null)
@@ -423,6 +492,11 @@ namespace ChineseChess
                 lastChesses[i] = null;
             }
         }
+
+        /// <summary>
+        /// 判断游戏是否结束
+        /// </summary>
+        /// <returns></returns>
         public int JudgeGame()
         {
             if (JudgeLose() == 1)

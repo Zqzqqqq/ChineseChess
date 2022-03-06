@@ -14,77 +14,77 @@ namespace ChineseChess.Chesses
 
         }
 
-        public override List<Point> Available(int[,] martrix, bool flag)
+        public override List<Point> Available(int[,] martrix, bool flag)//与象类似，枚举8个方向，不过不用判断边界
         {
             List<Point> aval = new List<Point>();
             if (col - 2 >= 0 && col - 2 <= 8 && row + 1 >= 0 && row + 1 <= 9)
             {
-                if (martrix[row, col - 1] == 0)
+                if (martrix[row, col - 1] == 0)////如果没有被卡马脚
                 {
-                        if (martrix[row + 1, col - 2] != martrix[row, col])
-                            aval.Add(new Point(row + 1, col - 2));
+                    if (martrix[row + 1, col - 2] != martrix[row, col])//如果是空点或对方棋子则可移动
+                        aval.Add(new Point(row + 1, col - 2));
                 }
             }
             if (col - 2 >= 0 && col - 2 <= 8 && row - 1 >= 0 && row - 1 <= 9)
             {
                 if (martrix[row, col - 1] == 0)
                 {
-                        if (martrix[row - 1, col - 2] != martrix[row, col])
-                            aval.Add(new Point(row - 1, col - 2));
+                    if (martrix[row - 1, col - 2] != martrix[row, col])
+                        aval.Add(new Point(row - 1, col - 2));
                 }
             }
             if (col + 2 >= 0 && col + 2 <= 8 && row - 1 >= 0 && row - 1 <= 9)
             {
                 if (martrix[row, col + 1] == 0)
                 {
-                        if (martrix[row - 1, col + 2] != martrix[row, col])
-                            aval.Add(new Point(row - 1, col + 2));
+                    if (martrix[row - 1, col + 2] != martrix[row, col])
+                        aval.Add(new Point(row - 1, col + 2));
                 }
             }
             if (col + 2 >= 0 && col + 2 <= 8 && row + 1 >= 0 && row + 1 <= 9)
             {
                 if (martrix[row, col + 1] == 0)
                 {
-                        if (martrix[row + 1, col + 2] != martrix[row, col])
-                            aval.Add(new Point(row + 1, col + 2));
+                    if (martrix[row + 1, col + 2] != martrix[row, col])
+                        aval.Add(new Point(row + 1, col + 2));
                 }
             }
             if (col - 1 >= 0 && col - 1 <= 8 && row + 2 >= 0 && row + 2 <= 9)
             {
                 if (martrix[row + 1, col] == 0)
                 {
-                        if (martrix[row + 2, col - 1] != martrix[row, col])
-                            aval.Add(new Point(row + 2, col - 1));
+                    if (martrix[row + 2, col - 1] != martrix[row, col])
+                        aval.Add(new Point(row + 2, col - 1));
                 }
             }
             if (col + 1 >= 0 && col + 1 <= 8 && row + 2 >= 0 && row + 2 <= 9)
             {
                 if (martrix[row + 1, col] == 0)
                 {
-                        if (martrix[row + 2, col + 1] != martrix[row, col])
-                            aval.Add(new Point(row + 2, col + 1));
+                    if (martrix[row + 2, col + 1] != martrix[row, col])
+                        aval.Add(new Point(row + 2, col + 1));
                 }
             }
             if (col - 1 >= 0 && col - 1 <= 8 && row - 2 >= 0 && row - 2 <= 9)
             {
                 if (martrix[row - 1, col] == 0)
                 {
-                        if (martrix[row - 2, col - 1] != martrix[row, col])
-                            aval.Add(new Point(row - 2, col - 1));
+                    if (martrix[row - 2, col - 1] != martrix[row, col])
+                        aval.Add(new Point(row - 2, col - 1));
                 }
             }
             if (col + 1 >= 0 && col + 1 <= 8 && row - 2 >= 0 && row - 2 <= 9)
             {
                 if (martrix[row - 1, col] == 0)
                 {
-                        if (martrix[row - 2, col + 1] != martrix[row, col])
-                            aval.Add(new Point(row - 2, col + 1));
+                    if (martrix[row - 2, col + 1] != martrix[row, col])
+                        aval.Add(new Point(row - 2, col + 1));
                 }
             }
             return aval;
         }
 
-        public override Step Move(int row, int col, List<Chess> chesses)
+        /*public override Step Move(int row, int col, List<Chess> chesses)
         {
 
             bool flag = false;
@@ -339,6 +339,6 @@ namespace ChineseChess.Chesses
             return null;
 
 
-        }
+        }*/
     }
 }

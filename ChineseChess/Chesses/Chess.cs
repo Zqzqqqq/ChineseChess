@@ -66,14 +66,8 @@ namespace ChineseChess
 
         }
 
-        public bool Equal(Chess chess)
-        {
-            if (chess.row == this.row && chess.col == this.col)
-                return true;
-            return false;
-        }
+        //public abstract Step Move(int row, int col, List<Chess> chesses);
 
-        public abstract Step Move(int row, int col, List<Chess> chesses);
         public bool Move(int row, int col, List<Chess> chesses, bool flag)
         {
             foreach (Chess c in chesses)

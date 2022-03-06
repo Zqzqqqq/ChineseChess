@@ -13,7 +13,7 @@ namespace ChineseChess.Chesses
         {
 
         }
-        public override List<Point> Available(int[,] martrix, bool flag)
+        public override List<Point> Available(int[,] martrix, bool flag)//士与将类似
         {
             int xboundary1, xboundary2;
             if (flag)
@@ -59,7 +59,7 @@ namespace ChineseChess.Chesses
             return aval;
         }
 
-        public override Step Move(int row, int col, List<Chess> chesses)
+        /*public override Step Move(int row, int col, List<Chess> chesses)
         {
             
             if (row != 7 && row != 8 && row != 9 && col != 3 && col != 4 && col != 5)
@@ -186,6 +186,6 @@ namespace ChineseChess.Chesses
                 }
                 return null;
             }
-        }
+        }*/
     }
 }

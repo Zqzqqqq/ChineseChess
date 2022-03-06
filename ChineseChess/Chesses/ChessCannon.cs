@@ -14,21 +14,21 @@ namespace ChineseChess.Chesses
             
         }
 
-        public override List<Point> Available(int[,] martrix, bool flag)
+        public override List<Point> Available(int[,] martrix, bool flag)//遍历上下左右四个方向，返回可移动的点
         {
             int count = 0;
             List<Point> aval = new List<Point>();
-            for (int i = row, j = col - 1; j >= 0; j--)
+            for (int i = row, j = col - 1; j >= 0; j--)//左
             {
 
-                if (martrix[i, j] == 0)
+                if (martrix[i, j] == 0)//如果是空点并且count！=1则可到达
                 {
                     if (count != 1)
                         aval.Add(new Point(i, j));
                 }
                 else
                 {
-                    if (++count == 2)
+                    if (++count == 2) //如果是对方的棋子并且count== 2则可到达
                     {
                         if (martrix[i, j] != martrix[row, col])
                             aval.Add(new Point(i, j));
@@ -36,8 +36,8 @@ namespace ChineseChess.Chesses
                     }
                 }
             }
-            count = 0;
-            for (int i = row, j = col + 1; j <= 8; j++)
+            count = 0;//count清零
+            for (int i = row, j = col + 1; j <= 8; j++)//右
             {
                 if (martrix[i, j] == 0)
                 {
@@ -55,7 +55,7 @@ namespace ChineseChess.Chesses
                 }
             }
             count = 0;
-            for (int i = row - 1, j = col; i >= 0; i--)
+            for (int i = row - 1, j = col; i >= 0; i--)//上
             {
                 if (martrix[i, j] == 0)
                 {
@@ -73,7 +73,7 @@ namespace ChineseChess.Chesses
                 }
             }
             count = 0;
-            for (int i = row + 1, j = col; i <= 9; i++)
+            for (int i = row + 1, j = col; i <= 9; i++)//下
             {
                 if (martrix[i, j] == 0)
                 {
@@ -93,7 +93,7 @@ namespace ChineseChess.Chesses
             return aval;
         }
 
-        public override Step Move(int row, int col, List<Chess> chesses)
+        /*public override Step Move(int row, int col, List<Chess> chesses)
         {
             if(row == this.row)
             {
@@ -178,8 +178,8 @@ namespace ChineseChess.Chesses
             }
 
             return null; // 非直线移动那么直接返回null
-        }
+        }*/
 
-        
+
     }
 }

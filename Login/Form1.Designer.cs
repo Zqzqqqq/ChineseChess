@@ -1,7 +1,7 @@
 ﻿
 namespace Login
 {
-    partial class 中国象棋
+    partial class ChineseChess
     {
         /// <summary>
         /// 必需的设计器变量。

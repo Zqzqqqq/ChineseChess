@@ -11,9 +11,9 @@ namespace Login
 {
     class SocketClient
     {
-        private string ip = string.Empty;
-        private int port = 0;
-        public Socket socket = null;
+        private string ip;
+        private int port;
+        public Socket socket;
         private byte[] buffer = new byte[1024 * 1024 * 2];
 
         public SocketClient(string ip, int port)
@@ -31,7 +31,7 @@ namespace Login
         {
             try
             {
-                //实例化套接字(IP4寻址地址,流式传输,TCP协议)
+                //实例化套接字(IPv4寻址地址,流式传输,TCP协议)
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 //创建IP对象
                 IPAddress address = IPAddress.Parse(ip);
@@ -40,7 +40,7 @@ namespace Login
                 //建立连接
                 socket.Connect(endPoint);
                 //向服务器发送消息
-                string sendMessage = "link-status" + "^" + src + "^" + dest; 
+                string sendMessage = "link-status" + "^" + src + "^" + dest;
                 socket.Send(Encoding.UTF8.GetBytes(sendMessage));
                
                 while (true)

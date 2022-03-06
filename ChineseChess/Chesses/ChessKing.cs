@@ -13,9 +13,9 @@ namespace ChineseChess.Chesses
         {
 
         }
-        public override List<Point> Available(int[,] martrix, bool flag)
+        public override List<Point> Available(int[,] martrix, bool flag)//将只能在田字内移动
         {
-            int xboundary1, xboundary2;
+            int xboundary1, xboundary2;//根据flag来判断边界
             if (flag)
             {
                 xboundary1 = 7;
@@ -27,7 +27,7 @@ namespace ChineseChess.Chesses
                 xboundary2 = 2;
             }
             List<Point> aval = new List<Point>();
-            if (col - 1 >= 3 && col - 1 <= 5 && row >= xboundary1 && row <= xboundary2)
+            if (col - 1 >= 3 && col - 1 <= 5 && row >= xboundary1 && row <= xboundary2)//如果是空点或对方棋子则可移动
             {
                 if (martrix[row, col - 1] != martrix[row, col])
                 {
@@ -58,7 +58,7 @@ namespace ChineseChess.Chesses
             return aval;
         }
 
-        public override Step Move(int row, int col, List<Chess> chesses)
+        /*public override Step Move(int row, int col, List<Chess> chesses)
         {
 
             if (col != 3 && col != 4 && col != 5)
@@ -219,6 +219,6 @@ namespace ChineseChess.Chesses
                     return null;
                 }
             }
-        }
+        }*/
     }
 }
